@@ -24,5 +24,7 @@ EXPOSE 80
 
 ADD scripts/entrypoint.sh /entrypoint.sh
 
+RUN chmod +x /entrypoint.sh
+
 # Run entrypoint thing
 ENTRYPOINT ["/entrypoint.sh"]
