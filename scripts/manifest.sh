@@ -9,7 +9,8 @@ sudo service docker restart
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
 # easy switch between test and pr repository.
-REPOS_NAME=jc5x/ff-test-builds # firefly-iii
+#REPOS_NAME=jc5x/ff-test-builds
+REPOS_NAME=jc5x/firefly-iii
 
 VERSION_TARGET=$REPOS_NAME:release-$VERSION
 
