@@ -8,6 +8,7 @@ touch $HOME/.docker/config.json
 echo '{"experimental":"enabled"}' | sudo tee $HOME/.docker/config.json
 sudo service docker restart
 
+
 # easy switch between test and pr repository.
 REPOS_NAME=jc5x/ff-test-builds # jc5x/firefly-iii
 
