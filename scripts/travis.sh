@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
 
-echo "travis.sh: I am building channel ${CHANNEL} for version ${VERSION} on architecture ${ARCH}, branch $TRAVIS_BRANCH."
+echo "travis.sh: I am building channel ${CHANNEL} for version ${VERSION} on architecture ${ARCH}, branch $RELEASE."
 
 echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
 mkdir $HOME/.docker
 touch $HOME/.docker/config.json
 echo '{"experimental":"enabled"}' | sudo tee $HOME/.docker/config.json
 sudo service docker restart
+
+# easy switch between test and pr repository.
+REPOS_NAME=jc5x/ff-test-builds # jc5x/firefly-iii
+
 
 # First build amd64 image:
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
@@ -23,80 +27,80 @@ if [ $ARCH == "arm" ]; then
     popd
 fi
 
-# if the github branch is develop, build and push develop. Don't push a version tag anymore.
-if [ $TRAVIS_BRANCH == "develop" ]; then
-    LABEL=jc5x/firefly-iii:develop-$ARCH
-    echo "GitHub branch is $TRAVIS_BRANCH. Will build and push $LABEL"
+# if the release is develop, build and push develop. Don't push a version tag anymore.
+if [ $RELEASE == "develop" ]; then
+    LABEL=$REPOS_NAME:develop-$ARCH
+    echo "GitHub branch is $RELEASE. Will build and push $LABEL"
     docker build -t $LABEL -f Dockerfile.$ARCH .
     docker push $LABEL
 fi
 
 # if branch = master AND channel = alpha, build and push 'alpha'
-if [ $TRAVIS_BRANCH == "master" ] && [ $CHANNEL == "alpha" ]; then
-    LABEL=jc5x/firefly-iii:alpha-$ARCH
-    echo "GitHub branch is $TRAVIS_BRANCH and channel is $CHANNEL. Will build and push $LABEL"
+if [ $RELEASE == "master" ] && [ $CHANNEL == "alpha" ]; then
+    LABEL=$REPOS_NAME:alpha-$ARCH
+    echo "GitHub branch is $RELEASE and channel is $CHANNEL. Will build and push $LABEL"
     docker build -t $LABEL -f Dockerfile.$ARCH .
     docker push $LABEL
 fi
 
 # if branch is master and channel is alpha, build and push 'alpha' and 'beta'.
-if [ $TRAVIS_BRANCH == "master" ] && [ $CHANNEL == "beta" ]; then
-    LABEL=jc5x/firefly-iii:beta-$ARCH
-    echo "GitHub branch is $TRAVIS_BRANCH and channel is $CHANNEL. Will build and push $LABEL"
+if [ $RELEASE == "master" ] && [ $CHANNEL == "beta" ]; then
+    LABEL=$REPOS_NAME:beta-$ARCH
+    echo "GitHub branch is $RELEASE and channel is $CHANNEL. Will build and push $LABEL"
     docker build -t $LABEL -f Dockerfile.$ARCH .
     docker push $LABEL
 
     # then tag as alpha and push:
-    docker tag $LABEL jc5x/firefly-iii:alpha-$ARCH
-    docker push jc5x/firefly-iii:alpha-$ARCH
-    echo "Also tagged $LABEL as jc5x/firefly-iii:alpha-$ARCH and pushed"
+    docker tag $LABEL $REPOS_NAME:alpha-$ARCH
+    docker push $REPOS_NAME:alpha-$ARCH
+    echo "Also tagged $LABEL as $REPOS_NAME:alpha-$ARCH and pushed"
 fi
 
 # if branch is master and channel is stable, push 'alpha' and 'beta' and 'stable'.
-if [ $TRAVIS_BRANCH == "master" ] && [ $CHANNEL == "stable" ]; then
+if [ $RELEASE == "master" ] && [ $CHANNEL == "stable" ]; then
     # first build stable
-    LABEL=jc5x/firefly-iii:stable-$ARCH
-    echo "GitHub branch is $TRAVIS_BRANCH and channel is $CHANNEL. Will build and push $LABEL"
+    LABEL=$REPOS_NAME:stable-$ARCH
+    echo "GitHub branch is $RELEASE and channel is $CHANNEL. Will build and push $LABEL"
     docker build -t $LABEL -f Dockerfile.$ARCH .
     docker push $LABEL
 
     # then tag as beta and push:
-    docker tag $LABEL jc5x/firefly-iii:beta-$ARCH
-    docker push jc5x/firefly-iii:beta-$ARCH
-    echo "Also tagged $LABEL as jc5x/firefly-iii:beta-$ARCH and pushed"
+    docker tag $LABEL $REPOS_NAME:beta-$ARCH
+    docker push $REPOS_NAME:beta-$ARCH
+    echo "Also tagged $LABEL as $REPOS_NAME:beta-$ARCH and pushed"
 
     # then tag as alpha and push:
-    docker tag $LABEL jc5x/firefly-iii:alpha-$ARCH
-    docker push jc5x/firefly-iii:alpha-$ARCH
-    echo "Also tagged $LABEL as jc5x/firefly-iii:alpha-$ARCH and pushed"
+    docker tag $LABEL $REPOS_NAME:alpha-$ARCH
+    docker push $REPOS_NAME:alpha-$ARCH
+    echo "Also tagged $LABEL as $REPOS_NAME:alpha-$ARCH and pushed"
 
     # then tag as latest and push:
-    docker tag $LABEL jc5x/firefly-iii:latest-$ARCH
-    docker push jc5x/firefly-iii:latest-$ARCH
-    echo "Also tagged $LABEL as jc5x/firefly-iii:latest-$ARCH and pushed"
+    docker tag $LABEL $REPOS_NAME:latest-$ARCH
+    docker push $REPOS_NAME:latest-$ARCH
+    echo "Also tagged $LABEL as $REPOS_NAME:latest-$ARCH and pushed"
 fi
 
 # push to channel 'version' if master + alpha
-if [ $TRAVIS_BRANCH == "master" ] && [ $CHANNEL == "alpha"]; then
-    LABEL=jc5x/firefly-iii:version-$VERSION-$ARCH
-    echo "GitHub branch is $TRAVIS_BRANCH and channel is $CHANNEL. Will also push alpha as $LABEL"
-    docker tag jc5x/firefly-iii:alpha-$ARCH $LABEL
+if [ $RELEASE == "master" ] && [ $CHANNEL == "alpha"]; then
+    LABEL=$REPOS_NAME:version-$VERSION-$ARCH
+    echo "GitHub branch is $RELEASE and channel is $CHANNEL. Will also push alpha as $LABEL"
+    docker tag $REPOS_NAME:alpha-$ARCH $LABEL
     docker push $LABEL
 fi
 
 # push to channel 'version' if master + beta
-if [ $TRAVIS_BRANCH == "master" ] && [ $CHANNEL == "beta"]; then
-    LABEL=jc5x/firefly-iii:version-$VERSION-$ARCH
-    echo "GitHub branch is $TRAVIS_BRANCH and channel is $CHANNEL. Will also push beta as $LABEL"
-    docker tag jc5x/firefly-iii:beta-$ARCH $LABEL
+if [ $RELEASE == "master" ] && [ $CHANNEL == "beta"]; then
+    LABEL=$REPOS_NAME:version-$VERSION-$ARCH
+    echo "GitHub branch is $RELEASE and channel is $CHANNEL. Will also push beta as $LABEL"
+    docker tag $REPOS_NAME:beta-$ARCH $LABEL
     docker push $LABEL
 fi
 
 # push to channel 'version' if master + stable
-if [ $TRAVIS_BRANCH == "master" ] && [ $CHANNEL == "stable"]; then
-    LABEL=jc5x/firefly-iii:version-$VERSION-$ARCH
-    echo "GitHub branch is $TRAVIS_BRANCH and channel is $CHANNEL. Will also push beta as $LABEL"
-    docker tag jc5x/firefly-iii:stable-$ARCH $LABEL
+if [ $RELEASE == "master" ] && [ $CHANNEL == "stable"]; then
+    LABEL=$REPOS_NAME:version-$VERSION-$ARCH
+    echo "GitHub branch is $RELEASE and channel is $CHANNEL. Will also push beta as $LABEL"
+    docker tag $REPOS_NAME:stable-$ARCH $LABEL
     docker push $LABEL
 fi
 
