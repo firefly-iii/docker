@@ -14,13 +14,13 @@ REPOS_NAME=jc5x/ff-test-builds # firefly-iii
 VERSION_TARGET=$REPOS_NAME:release-$VERSION
 
 # if the github branch is develop, only push the 'develop' tag
-if [ $TRAVIS_BRANCH == "develop" ]; then
+if [ $RELEASE == "develop" ]; then
     TARGET=$REPOS_NAME:develop
     ARM32=$REPOS_NAME:develop-arm
     ARM64=$REPOS_NAME:develop-arm64
     AMD64=$REPOS_NAME:develop-amd64
 
-    echo "GitHub branch is $TRAVIS_BRANCH."
+    echo "GitHub branch is $RELEASE."
     echo "Push develop-* builds to $TARGET"
 
     docker manifest create $TARGET $ARM32 $ARM64 $AMD64
@@ -31,13 +31,13 @@ if [ $TRAVIS_BRANCH == "develop" ]; then
 fi
 
 # if branch = master AND channel = alpha, push 'alpha'
-if [ $TRAVIS_BRANCH == "master" ] && [ $CHANNEL == "alpha" ]; then
+if [ $RELEASE == "master" ] && [ $CHANNEL == "alpha" ]; then
     TARGET=$REPOS_NAME:alpha
     ARM32=$REPOS_NAME:alpha-arm
     ARM64=$REPOS_NAME:alpha-arm64
     AMD64=$REPOS_NAME:alpha-amd64
 
-    echo "GitHub branch is $TRAVIS_BRANCH."
+    echo "GitHub branch is $RELEASE."
     echo "Channel is $CHANNEL."
     echo "Push alpha-* builds to $TARGET"
 
@@ -58,13 +58,13 @@ if [ $TRAVIS_BRANCH == "master" ] && [ $CHANNEL == "alpha" ]; then
 fi
 
 # if branch is master and channel is alpha, push 'alpha' and 'beta'.
-if [ $TRAVIS_BRANCH == "master" ] && [ $CHANNEL == "beta" ]; then
+if [ $RELEASE == "master" ] && [ $CHANNEL == "beta" ]; then
     TARGET=$REPOS_NAME:alpha
     ARM32=$REPOS_NAME:beta-arm
     ARM64=$REPOS_NAME:beta-arm64
     AMD64=$REPOS_NAME:beta-amd64
 
-    echo "GitHub branch is $TRAVIS_BRANCH."
+    echo "GitHub branch is $RELEASE."
     echo "Channel is $CHANNEL."
     echo "Push beta-* builds to $TARGET"
 
@@ -97,13 +97,13 @@ if [ $TRAVIS_BRANCH == "master" ] && [ $CHANNEL == "beta" ]; then
 fi
 
 # if branch is master and channel is stable, push 'alpha' and 'beta' and 'stable'.
-if [ $TRAVIS_BRANCH == "master" ] && [ $CHANNEL == "stable" ]; then
+if [ $RELEASE == "master" ] && [ $CHANNEL == "stable" ]; then
     TARGET=$REPOS_NAME:alpha
     ARM32=$REPOS_NAME:stable-arm
     ARM64=$REPOS_NAME:stable-arm64
     AMD64=$REPOS_NAME:stable-amd64
 
-    echo "GitHub branch is $TRAVIS_BRANCH."
+    echo "GitHub branch is $RELEASE."
     echo "Channel is $CHANNEL."
     echo "Push stable-* builds to $TARGET"
 
