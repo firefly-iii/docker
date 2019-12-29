@@ -8,8 +8,6 @@ ENV RELEASE=$release
 ENV FIREFLY_PATH=/var/www/firefly-iii COMPOSER_ALLOW_SUPERUSER=1
 LABEL version="2.0" maintainer="thegrumpydictator@gmail.com"
 
-RUN echo $RELEASE
-
 # install Firefly III and patch configuration
 RUN mkdir /var/www/firefly-iii 
 WORKDIR /var/www/firefly-iii
