@@ -16,3 +16,4 @@ Here are some links for your reading pleasure.
 - [Firefly III on Docker Hub](https://hub.docker.com/r/jc5x/firefly-iii)
 - [Firefly III on Travis CI](https://travis-ci.com/firefly-iii/docker)
 
+Please open any issues you have [in the main repository](https://github.com/firefly-iii/firefly-iii).
