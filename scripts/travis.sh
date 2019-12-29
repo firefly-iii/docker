@@ -32,7 +32,7 @@ fi
 if [ $RELEASE == "develop" ]; then
     LABEL=$REPOS_NAME:develop-$ARCH
     echo "GitHub branch is $RELEASE. Will build and push $LABEL"
-    docker build -t $LABEL -f Dockerfile.$ARCH .
+    docker build -t $LABEL --build-arg release=${RELEASE} -f Dockerfile.$ARCH .
     docker push $LABEL
 fi
 
@@ -40,7 +40,7 @@ fi
 if [ $RELEASE == "master" ] && [ $CHANNEL == "alpha" ]; then
     LABEL=$REPOS_NAME:alpha-$ARCH
     echo "GitHub branch is $RELEASE and channel is $CHANNEL. Will build and push $LABEL"
-    docker build -t $LABEL -f Dockerfile.$ARCH .
+    docker build -t $LABEL --build-arg release=${RELEASE} -f Dockerfile.$ARCH .
     docker push $LABEL
 fi
 
@@ -48,7 +48,7 @@ fi
 if [ $RELEASE == "master" ] && [ $CHANNEL == "beta" ]; then
     LABEL=$REPOS_NAME:beta-$ARCH
     echo "GitHub branch is $RELEASE and channel is $CHANNEL. Will build and push $LABEL"
-    docker build -t $LABEL -f Dockerfile.$ARCH .
+    docker build -t $LABEL --build-arg release=${RELEASE} -f Dockerfile.$ARCH .
     docker push $LABEL
 
     # then tag as alpha and push:
@@ -62,7 +62,7 @@ if [ $RELEASE == "master" ] && [ $CHANNEL == "stable" ]; then
     # first build stable
     LABEL=$REPOS_NAME:stable-$ARCH
     echo "GitHub branch is $RELEASE and channel is $CHANNEL. Will build and push $LABEL"
-    docker build -t $LABEL -f Dockerfile.$ARCH .
+    docker build -t $LABEL --build-arg release=${RELEASE} -f Dockerfile.$ARCH .
     docker push $LABEL
 
     # then tag as beta and push:

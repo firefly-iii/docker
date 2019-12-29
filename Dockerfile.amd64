@@ -2,8 +2,13 @@ FROM jc5x/firefly-iii-base-image:latest
 
 # See also: https://github.com/JC5/firefly-iii-base-image
 
+ARG release
+ENV RELEASE=$release
+
 ENV FIREFLY_PATH=/var/www/firefly-iii COMPOSER_ALLOW_SUPERUSER=1
 LABEL version="2.0" maintainer="thegrumpydictator@gmail.com"
+
+RUN echo $RELEASE
 
 # install Firefly III and patch configuration
 RUN mkdir /var/www/firefly-iii 
