@@ -83,25 +83,25 @@ if [ $RELEASE == "master" ] && [ $CHANNEL == "stable" ]; then
 fi
 
 # push to channel 'version' if master + alpha
-if [ $RELEASE == "master" ] && [ $CHANNEL == "alpha"]; then
+if [ $RELEASE == "master" ] && [ $CHANNEL == "alpha" ]; then
     LABEL=$REPOS_NAME:version-$VERSION-$ARCH
-    echo "GitHub branch is $RELEASE and channel is $CHANNEL. Will also push alpha as $LABEL"
+    echo "GitHub release is $RELEASE and channel is $CHANNEL. Will also push alpha as $LABEL"
     docker tag $REPOS_NAME:alpha-$ARCH $LABEL
     docker push $LABEL
 fi
 
 # push to channel 'version' if master + beta
-if [ $RELEASE == "master" ] && [ $CHANNEL == "beta"]; then
+if [ $RELEASE == "master" ] && [ $CHANNEL == "beta" ]; then
     LABEL=$REPOS_NAME:version-$VERSION-$ARCH
-    echo "GitHub branch is $RELEASE and channel is $CHANNEL. Will also push beta as $LABEL"
+    echo "GitHub release is $RELEASE and channel is $CHANNEL. Will also push beta as $LABEL"
     docker tag $REPOS_NAME:beta-$ARCH $LABEL
     docker push $LABEL
 fi
 
 # push to channel 'version' if master + stable
-if [ $RELEASE == "master" ] && [ $CHANNEL == "stable"]; then
+if [ $RELEASE == "master" ] && [ $CHANNEL == "stable" ]; then
     LABEL=$REPOS_NAME:version-$VERSION-$ARCH
-    echo "GitHub branch is $RELEASE and channel is $CHANNEL. Will also push beta as $LABEL"
+    echo "GitHub release is $RELEASE and channel is $CHANNEL. Will also push beta as $LABEL"
     docker tag $REPOS_NAME:stable-$ARCH $LABEL
     docker push $LABEL
 fi
