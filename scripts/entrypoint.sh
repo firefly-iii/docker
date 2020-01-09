@@ -30,7 +30,7 @@ mkdir -p $FIREFLY_PATH/storage/logs
 mkdir -p $FIREFLY_PATH/storage/upload
 
 if [[ $DKR_CHECK_SQLITE != "false" ]]; then
-  echo "Touch DB file (if SQLlite)..."
+  echo "Touch DB file (if SQLite)..."
   if [[ $DB_CONNECTION == "sqlite" ]]; then
     touch $FIREFLY_PATH/storage/database/database.sqlite
     echo "Touched!"
@@ -140,7 +140,7 @@ fi
 
 php artisan firefly-iii:restore-oauth-keys
 
-if [[ $DKR_RUN_REPORT == "false" ]]; then
+if [[ $DKR_RUN_PASSPORT_INSTALL == "false" ]]; then
   echo 'Will NOT generate new OAuth keys.'
 fi
 
