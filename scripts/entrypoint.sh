@@ -60,7 +60,7 @@ if [[ -z "$DB_PORT" ]]; then
     DB_PORT=3306
   fi
 fi
-if [[ ! -z "$DB_PORT" ]]; then
+if [[ -n "$DB_PORT" ]]; then
   /wait-for-it.sh "${DB_HOST}:${DB_PORT}" -t 60 -- echo "DB is up. Time to execute artisan commands."
 fi
 
@@ -70,9 +70,7 @@ php artisan cache:clear
 
 if [[ $DKR_RUN_MIGRATION == "false" ]]; then
   echo "Will NOT run migration commands."
-fi
-
-if [[ $DKR_RUN_MIGRATION != "false" ]]; then
+else
   echo "Running migration commands..."
   php artisan firefly-iii:create-database
   php artisan migrate --seed --no-interaction --force
@@ -82,9 +80,7 @@ fi
 # there are 13 upgrade commands
 if [[ $DKR_RUN_UPGRADE == "false" ]]; then
   echo 'Will NOT run upgrade commands.'
-fi
-
-if [[ $DKR_RUN_UPGRADE != "false" ]]; then
+else
   echo 'Running upgrade commands...'
   php artisan firefly-iii:transaction-identifiers
   php artisan firefly-iii:migrate-to-groups
@@ -104,9 +100,7 @@ fi
 # there are 15 verify commands
 if [[ $DKR_RUN_VERIFY == "false" ]]; then
   echo 'Will NOT run verification commands.'
-fi
-
-if [[ $DKR_RUN_VERIFY != "false" ]]; then
+else
   echo 'Running verification commands...'
   php artisan firefly-iii:fix-piggies
   php artisan firefly-iii:create-link-types
@@ -129,9 +123,7 @@ fi
 # report commands
 if [[ $DKR_RUN_REPORT == "false" ]]; then
   echo 'Will NOT run report commands.'
-fi
-
-if [[ $DKR_RUN_REPORT != "false" ]]; then
+else
   echo 'Running report commands...'
   php artisan firefly-iii:report-empty-objects
   php artisan firefly-iii:report-sum
@@ -142,9 +134,7 @@ php artisan firefly-iii:restore-oauth-keys
 
 if [[ $DKR_RUN_PASSPORT_INSTALL == "false" ]]; then
   echo 'Will NOT generate new OAuth keys.'
-fi
-
-if [[ $DKR_RUN_PASSPORT_INSTALL != "false" ]]; then
+else
   echo 'Generating new OAuth keys...'
   php artisan passport:install
 fi

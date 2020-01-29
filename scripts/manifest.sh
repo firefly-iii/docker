@@ -15,7 +15,7 @@ REPOS_NAME=jc5x/firefly-iii
 VERSION_TARGET=$REPOS_NAME:release-$VERSION
 
 # if the github branch is develop, only push the 'develop' tag
-if [ $RELEASE == "develop" ]; then
+if [[ $RELEASE == "develop" ]]; then
     TARGET=$REPOS_NAME:develop
     ARM32=$REPOS_NAME:develop-arm
     ARM64=$REPOS_NAME:develop-arm64
@@ -32,7 +32,7 @@ if [ $RELEASE == "develop" ]; then
 fi
 
 # if branch = master AND channel = alpha, push 'alpha'
-if [ $RELEASE == "master" ] && [ $CHANNEL == "alpha" ]; then
+if [[ $RELEASE == "master" && $CHANNEL == "alpha" ]]; then
     TARGET=$REPOS_NAME:alpha
     ARM32=$REPOS_NAME:alpha-arm
     ARM64=$REPOS_NAME:alpha-arm64
@@ -59,7 +59,7 @@ if [ $RELEASE == "master" ] && [ $CHANNEL == "alpha" ]; then
 fi
 
 # if branch is master and channel is alpha, push 'alpha' and 'beta'.
-if [ $RELEASE == "master" ] && [ $CHANNEL == "beta" ]; then
+if [[ $RELEASE == "master" && $CHANNEL == "beta" ]]; then
     TARGET=$REPOS_NAME:alpha
     ARM32=$REPOS_NAME:beta-arm
     ARM64=$REPOS_NAME:beta-arm64
@@ -98,7 +98,7 @@ if [ $RELEASE == "master" ] && [ $CHANNEL == "beta" ]; then
 fi
 
 # if branch is master and channel is stable, push 'alpha' and 'beta' and 'stable'.
-if [ $RELEASE == "master" ] && [ $CHANNEL == "stable" ]; then
+if [[ $RELEASE == "master" && $CHANNEL == "stable" ]]; then
     TARGET=$REPOS_NAME:alpha
     ARM32=$REPOS_NAME:stable-arm
     ARM64=$REPOS_NAME:stable-arm64
@@ -163,4 +163,3 @@ if [ $RELEASE == "master" ] && [ $CHANNEL == "stable" ]; then
 fi
 
 echo 'Done!'
-# done!

@@ -16,16 +16,12 @@ RUN curl -SL https://github.com/firefly-iii/firefly-iii/archive/$RELEASE.tar.gz 
     chmod -R 775 $FIREFLY_PATH/storage && \
     composer install --prefer-dist --no-dev --no-scripts --no-suggest
 
-# Create volumes
 VOLUME $FIREFLY_PATH/storage/export $FIREFLY_PATH/storage/upload
 
-# Expose port 80
 EXPOSE 80
 
-ADD scripts/wait-for-it.sh /wait-for-it.sh
-ADD scripts/entrypoint.sh /entrypoint.sh
+COPY [ "scripts/wait-for-it.sh", "/wait-for-it.sh" ]
+COPY [ "scripts/entrypoint.sh", "/entrypoint.sh" ]
 
 RUN chmod +x /entrypoint.sh && chmod +x /wait-for-it.sh
-
-# Run entrypoint thing
 ENTRYPOINT ["/entrypoint.sh"]
