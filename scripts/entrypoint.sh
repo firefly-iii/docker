@@ -155,7 +155,7 @@ php artisan config:cache
 
 # make sure we own everything
 echo "Run chown on ${FIREFLY_PATH}"
-chown -R www-data:www-data -R $FIREFLY_PATH
+chown -R www-data:www-data -R "$FIREFLY_PATH"
 
 php artisan firefly:instructions install
 
