@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 echo "Now in entrypoint.sh for Firefly III"
 
@@ -74,10 +75,13 @@ envs=(
 	TRACKER_URL
 )
 
+echo "going to parse vars"
 for e in "${envs[@]}"; do
-	echo "Read environment variable from file: $e"
-	file_env "$e"
+  echo "Read environment variable from file: $e"
+  file_env "$e"
 done
+
+echo "done!"
 
 echo 'These are some debug things:'
 
