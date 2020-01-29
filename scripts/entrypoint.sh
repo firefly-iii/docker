@@ -2,6 +2,83 @@
 
 echo "Now in entrypoint.sh for Firefly III"
 
+# https://github.com/docker-library/wordpress/blob/master/docker-entrypoint.sh
+# usage: file_env VAR [DEFAULT]
+#    ie: file_env 'XYZ_DB_PASSWORD' 'example'
+# (will allow for "$XYZ_DB_PASSWORD_FILE" to fill in the value of
+#  "$XYZ_DB_PASSWORD" from a file, especially for Docker's secrets feature)
+file_env() {
+	local var="$1"
+	local fileVar="${var}_FILE"
+	local def="${2:-}"
+	if [ "${!var:-}" ] && [ "${!fileVar:-}" ]; then
+		echo >&2 "error: both $var and $fileVar are set (but are exclusive)"
+		exit 1
+	fi
+	local val="$def"
+	if [ "${!var:-}" ]; then
+		val="${!var}"
+	elif [ "${!fileVar:-}" ]; then
+		val="$(< "${!fileVar}")"
+	fi
+	export "$var"="$val"
+	unset "$fileVar"
+}
+
+# envs that can be appended with _FILE
+envs=(
+	SITE_OWNER
+	APP_KEY
+	DB_CONNECTION
+	DB_HOST
+	DB_PORT
+	DB_DATABASE
+	DB_USERNAME
+	DB_PASSWORD
+	PGSQL_SSL_MODE
+	PGSQL_SSL_ROOT_CERT
+	PGSQL_SSL_CERT
+	PGSQL_SSL_KEY
+	PGSQL_SSL_CRL_FILE
+	REDIS_HOST
+	REDIS_PASSWORD
+	REDIS_PORT
+	COOKIE_DOMAIN
+	MAIL_DRIVER
+	MAIL_HOST
+	MAIL_PORT
+	MAIL_FROM
+	MAIL_USERNAME
+	MAIL_PASSWORD
+	MAIL_ENCRYPTION
+	MAILGUN_DOMAIN
+	MAILGUN_SECRET
+	MAILGUN_ENDPOINT
+	MANDRILL_SECRET
+	SPARKPOST_SECRET
+	MAPBOX_API_KEY
+	FIXER_API_KEY
+	LOGIN_PROVIDER
+	ADLDAP_CONNECTION_SCHEME
+	ADLDAP_CONTROLLERS
+	ADLDAP_PORT
+	ADLDAP_BASEDN
+	ADLDAP_ADMIN_USERNAME
+	ADLDAP_ADMIN_PASSWORD
+	ADLDAP_ACCOUNT_PREFIX
+	ADLDAP_ACCOUNT_SUFFIX
+	WINDOWS_SSO_DISCOVER
+	WINDOWS_SSO_KEY
+	ADLDAP_SYNC_FIELD
+	TRACKER_SITE_ID
+	TRACKER_URL
+)
+
+for e in "${envs[@]}"; do
+	echo "Read environment variable from file: $e"
+	file_env "$e"
+done
+
 echo 'These are some debug things:'
 
 echo "DKR_CHECK_SQLITE '$DKR_CHECK_SQLITE'"
