@@ -17,7 +17,7 @@ REPOS_NAME=jc5x/firefly-iii # jc5x/firefly-iii
 # First build amd64 image:
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
-if [ $ARCH == "arm" ]; then
+if [[ $ARCH == "arm" ]]; then
     echo "Because architecture is $ARCH running some extra commands."
     docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
@@ -30,7 +30,7 @@ if [ $ARCH == "arm" ]; then
 fi
 
 # if the release is develop, build and push develop. Don't push a version tag anymore.
-if [ $RELEASE == "develop" ]; then
+if [[ $RELEASE == "develop" ]]; then
     LABEL=$REPOS_NAME:develop-$ARCH
     echo "GitHub branch is $RELEASE. Will build and push $LABEL"
     docker build -t $LABEL --build-arg release=${RELEASE} -f Dockerfile.$ARCH .
@@ -38,7 +38,7 @@ if [ $RELEASE == "develop" ]; then
 fi
 
 # if branch = master AND channel = alpha, build and push 'alpha'
-if [ $RELEASE == "master" ] && [ $CHANNEL == "alpha" ]; then
+if [[ $RELEASE == "master" && $CHANNEL == "alpha" ]]; then
     LABEL=$REPOS_NAME:alpha-$ARCH
     echo "GitHub branch is $RELEASE and channel is $CHANNEL. Will build and push $LABEL"
     docker build -t $LABEL --build-arg release=${RELEASE} -f Dockerfile.$ARCH .
@@ -46,7 +46,7 @@ if [ $RELEASE == "master" ] && [ $CHANNEL == "alpha" ]; then
 fi
 
 # if branch is master and channel is alpha, build and push 'alpha' and 'beta'.
-if [ $RELEASE == "master" ] && [ $CHANNEL == "beta" ]; then
+if [[ $RELEASE == "master" && $CHANNEL == "beta" ]]; then
     LABEL=$REPOS_NAME:beta-$ARCH
     echo "GitHub branch is $RELEASE and channel is $CHANNEL. Will build and push $LABEL"
     docker build -t $LABEL --build-arg release=${RELEASE} -f Dockerfile.$ARCH .
@@ -59,7 +59,7 @@ if [ $RELEASE == "master" ] && [ $CHANNEL == "beta" ]; then
 fi
 
 # if branch is master and channel is stable, push 'alpha' and 'beta' and 'stable'.
-if [ $RELEASE == "master" ] && [ $CHANNEL == "stable" ]; then
+if [[ $RELEASE == "master" && $CHANNEL == "stable" ]]; then
     # first build stable
     LABEL=$REPOS_NAME:stable-$ARCH
     echo "GitHub branch is $RELEASE and channel is $CHANNEL. Will build and push $LABEL"
@@ -83,7 +83,7 @@ if [ $RELEASE == "master" ] && [ $CHANNEL == "stable" ]; then
 fi
 
 # push to channel 'version' if master + alpha
-if [ $RELEASE == "master" ] && [ $CHANNEL == "alpha" ]; then
+if [[ $RELEASE == "master" && $CHANNEL == "alpha" ]]; then
     LABEL=$REPOS_NAME:version-$VERSION-$ARCH
     echo "GitHub release is $RELEASE and channel is $CHANNEL. Will also push alpha as $LABEL"
     docker tag $REPOS_NAME:alpha-$ARCH $LABEL
@@ -91,7 +91,7 @@ if [ $RELEASE == "master" ] && [ $CHANNEL == "alpha" ]; then
 fi
 
 # push to channel 'version' if master + beta
-if [ $RELEASE == "master" ] && [ $CHANNEL == "beta" ]; then
+if [[ $RELEASE == "master" && $CHANNEL == "beta" ]]; then
     LABEL=$REPOS_NAME:version-$VERSION-$ARCH
     echo "GitHub release is $RELEASE and channel is $CHANNEL. Will also push beta as $LABEL"
     docker tag $REPOS_NAME:beta-$ARCH $LABEL
@@ -99,7 +99,7 @@ if [ $RELEASE == "master" ] && [ $CHANNEL == "beta" ]; then
 fi
 
 # push to channel 'version' if master + stable
-if [ $RELEASE == "master" ] && [ $CHANNEL == "stable" ]; then
+if [[ $RELEASE == "master" && $CHANNEL == "stable" ]]; then
     LABEL=$REPOS_NAME:version-$VERSION-$ARCH
     echo "GitHub release is $RELEASE and channel is $CHANNEL. Will also push beta as $LABEL"
     docker tag $REPOS_NAME:stable-$ARCH $LABEL
