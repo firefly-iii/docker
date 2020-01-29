@@ -22,8 +22,8 @@ VOLUME $FIREFLY_PATH/storage/export $FIREFLY_PATH/storage/upload
 # Expose port 80
 EXPOSE 80
 
-ADD scripts/wait-for-it.sh /wait-for-it.sh
-ADD scripts/entrypoint.sh /entrypoint.sh
+COPY [ "scripts/wait-for-it.sh", "/wait-for-it.sh" ]
+COPY [ "scripts/entrypoint.sh", "/entrypoint.sh" ]
 
 RUN chmod +x /entrypoint.sh && chmod +x /wait-for-it.sh
 
