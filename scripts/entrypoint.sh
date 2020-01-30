@@ -1,7 +1,17 @@
 #!/bin/bash
-set -euo pipefail
 
-echo "Now in entrypoint.sh for Firefly III"
+echo "Now in entrypoint.sh for Firefly III v1.0.0"
+
+echo 'These are some debug things:'
+
+echo "DKR_CHECK_SQLITE '$DKR_CHECK_SQLITE'"
+echo "DKR_RUN_MIGRATION '$DKR_RUN_MIGRATION'"
+echo "DKR_RUN_UPGRADE '$DKR_RUN_UPGRADE'"
+echo "DKR_RUN_VERIFY '$DKR_RUN_VERIFY'"
+echo "DKR_RUN_REPORT '$DKR_RUN_REPORT'"
+echo "DKR_RUN_PASSPORT_INSTALL '$DKR_RUN_PASSPORT_INSTALL'"
+
+echo 'End of debug things.'
 
 # https://github.com/docker-library/wordpress/blob/master/docker-entrypoint.sh
 # usage: file_env VAR [DEFAULT]
@@ -75,24 +85,11 @@ envs=(
 	TRACKER_URL
 )
 
-echo "going to parse vars"
+echo "Parsing _FILE variables.."
 for e in "${envs[@]}"; do
-  echo "Read environment variable from file: $e"
   file_env "$e"
 done
-
-echo "done!"
-
-echo 'These are some debug things:'
-
-echo "DKR_CHECK_SQLITE '$DKR_CHECK_SQLITE'"
-echo "DKR_RUN_MIGRATION '$DKR_RUN_MIGRATION'"
-echo "DKR_RUN_UPGRADE '$DKR_RUN_UPGRADE'"
-echo "DKR_RUN_VERIFY '$DKR_RUN_VERIFY'"
-echo "DKR_RUN_REPORT '$DKR_RUN_REPORT'"
-echo "DKR_RUN_PASSPORT_INSTALL '$DKR_RUN_PASSPORT_INSTALL'"
-
-echo 'End of debug things.'
+echo "Done!"
 
 # make sure the correct directories exists (suggested by @chrif):
 echo "Making directories..."
@@ -141,7 +138,7 @@ if [[ -z "$DB_PORT" ]]; then
     DB_PORT=3306
   fi
 fi
-if [[ -n "$DB_PORT" ]]; then
+if [[ ! -z "$DB_PORT" ]]; then
   /wait-for-it.sh "${DB_HOST}:${DB_PORT}" -t 60 -- echo "DB is up. Time to execute artisan commands."
 fi
 
@@ -151,7 +148,9 @@ php artisan cache:clear
 
 if [[ $DKR_RUN_MIGRATION == "false" ]]; then
   echo "Will NOT run migration commands."
-else
+fi
+
+if [[ $DKR_RUN_MIGRATION != "false" ]]; then
   echo "Running migration commands..."
   php artisan firefly-iii:create-database
   php artisan migrate --seed --no-interaction --force
@@ -161,7 +160,9 @@ fi
 # there are 13 upgrade commands
 if [[ $DKR_RUN_UPGRADE == "false" ]]; then
   echo 'Will NOT run upgrade commands.'
-else
+fi
+
+if [[ $DKR_RUN_UPGRADE != "false" ]]; then
   echo 'Running upgrade commands...'
   php artisan firefly-iii:transaction-identifiers
   php artisan firefly-iii:migrate-to-groups
@@ -181,7 +182,9 @@ fi
 # there are 15 verify commands
 if [[ $DKR_RUN_VERIFY == "false" ]]; then
   echo 'Will NOT run verification commands.'
-else
+fi
+
+if [[ $DKR_RUN_VERIFY != "false" ]]; then
   echo 'Running verification commands...'
   php artisan firefly-iii:fix-piggies
   php artisan firefly-iii:create-link-types
@@ -204,7 +207,9 @@ fi
 # report commands
 if [[ $DKR_RUN_REPORT == "false" ]]; then
   echo 'Will NOT run report commands.'
-else
+fi
+
+if [[ $DKR_RUN_REPORT != "false" ]]; then
   echo 'Running report commands...'
   php artisan firefly-iii:report-empty-objects
   php artisan firefly-iii:report-sum
@@ -215,7 +220,9 @@ php artisan firefly-iii:restore-oauth-keys
 
 if [[ $DKR_RUN_PASSPORT_INSTALL == "false" ]]; then
   echo 'Will NOT generate new OAuth keys.'
-else
+fi
+
+if [[ $DKR_RUN_PASSPORT_INSTALL != "false" ]]; then
   echo 'Generating new OAuth keys...'
   php artisan passport:install
 fi
