@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "Now in entrypoint.sh for Firefly III"
+echo "Entrypoint script version is 1.0.1"
 
 # https://github.com/docker-library/wordpress/blob/master/docker-entrypoint.sh
 # usage: file_env VAR [DEFAULT]
@@ -74,24 +75,12 @@ envs=(
 	TRACKER_URL
 )
 
-echo "going to parse vars"
+echo "Now parsing _FILE variables."
 for e in "${envs[@]}"; do
-  echo "Read environment variable from file: $e"
   file_env "$e"
 done
 
 echo "done!"
-
-echo 'These are some debug things:'
-
-echo "DKR_CHECK_SQLITE '$DKR_CHECK_SQLITE'"
-echo "DKR_RUN_MIGRATION '$DKR_RUN_MIGRATION'"
-echo "DKR_RUN_UPGRADE '$DKR_RUN_UPGRADE'"
-echo "DKR_RUN_VERIFY '$DKR_RUN_VERIFY'"
-echo "DKR_RUN_REPORT '$DKR_RUN_REPORT'"
-echo "DKR_RUN_PASSPORT_INSTALL '$DKR_RUN_PASSPORT_INSTALL'"
-
-echo 'End of debug things.'
 
 # make sure the correct directories exists (suggested by @chrif):
 echo "Making directories..."
@@ -225,7 +214,7 @@ php artisan config:cache
 
 # make sure we own everything
 echo "Run chown on ${FIREFLY_PATH}"
-chown -R www-data:www-data -R $FIREFLY_PATH
+chown -R www-data:www-data -R $FIREFLY_PATH/storage
 
 php artisan firefly:instructions install
 
