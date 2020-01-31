@@ -213,7 +213,7 @@ php artisan cache:clear
 php artisan config:cache
 
 # make sure we own everything
-echo "Run chown on ${FIREFLY_PATH}"
+echo "Run chown on ${FIREFLY_PATH}/storage"
 chown -R www-data:www-data -R $FIREFLY_PATH/storage
 
 php artisan firefly:instructions install
