@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Now in entrypoint.sh for Firefly III"
-echo "Entrypoint script version is 1.0.1"
+echo "Entrypoint script version is 1.0.2"
 
 # https://github.com/docker-library/wordpress/blob/master/docker-entrypoint.sh
 # usage: file_env VAR [DEFAULT]
@@ -97,6 +97,13 @@ mkdir -p $FIREFLY_PATH/storage/framework/views/v1
 mkdir -p $FIREFLY_PATH/storage/framework/views/v2
 mkdir -p $FIREFLY_PATH/storage/logs
 mkdir -p $FIREFLY_PATH/storage/upload
+
+echo "SQL connection data: (pw is hidden)"
+echo "DB_CONNECTION: '${DB_CONNECTION}'"
+echo "DB_HOST: '${DB_HOST}'"
+echo "DB_PORT: '${DB_PORT}'"
+echo "DB_DATABASE: '${DB_DATABASE}'"
+echo "DB_USERNAME: '${DB_USERNAME}'"
 
 if [[ $DKR_CHECK_SQLITE != "false" ]]; then
   echo "Touch DB file (if SQLite)..."
