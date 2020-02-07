@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Now in entrypoint.sh for Firefly III"
-echo "Entrypoint script version is 1.0.2"
+echo "Entrypoint script version is 1.0.3"
 
 # https://github.com/docker-library/wordpress/blob/master/docker-entrypoint.sh
 # usage: file_env VAR [DEFAULT]
@@ -114,8 +114,8 @@ if [[ $DKR_CHECK_SQLITE != "false" ]]; then
 fi
 
 # make sure we own the volumes:
-echo "Run chown on ${FIREFLY_PATH}/storage..."
-chown -R www-data:www-data -R $FIREFLY_PATH/storage
+echo "Run chown on ${FIREFLY_PATH}..."
+chown -R www-data:www-data -R $FIREFLY_PATH
 echo "Run chmod on ${FIREFLY_PATH}/storage..."
 chmod -R 775 $FIREFLY_PATH/storage
 
@@ -220,8 +220,8 @@ sudo -u www-data php artisan cache:clear
 sudo -u www-data php artisan config:cache
 
 # make sure we own everything (again)
-echo "Run chown on ${FIREFLY_PATH}/storage"
-chown -R www-data:www-data -R $FIREFLY_PATH/storage
+echo "Run chown on ${FIREFLY_PATH}"
+chown -R www-data:www-data -R $FIREFLY_PATH
 
 sudo -u www-data php artisan firefly:instructions install
 
