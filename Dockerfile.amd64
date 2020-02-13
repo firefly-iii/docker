@@ -1,4 +1,4 @@
-FROM jc5x/firefly-iii-base-image:latest
+FROM jc5x/firefly-iii-base-image:latest-amd64
 
 # See also: https://github.com/JC5/firefly-iii-base-image
 
