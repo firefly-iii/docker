@@ -13,21 +13,21 @@ jobs:
   include:
     - dist: xenial
       arch: amd64
-      env: ARCH=amd64 CHANNEL=alpha VERSION=5.1.0-alpha.1 RELEASE=develop
+      env: ARCH=amd64 CHANNEL=beta VERSION=5.1.0-beta.1 RELEASE=develop
       stage: build
       script: ./scripts/travis.sh
     - dist: xenial
       arch: amd64
-      env: ARCH=arm CHANNEL=alpha VERSION=5.1.0-alpha.1 RELEASE=develop
+      env: ARCH=arm CHANNEL=beta VERSION=5.1.0-beta.1 RELEASE=develop
       stage: build
       script: ./scripts/travis.sh
     - dist: xenial
       arch: arm64
-      env: ARCH=arm64 CHANNEL=alpha VERSION=5.1.0-alpha.1 RELEASE=develop
+      env: ARCH=arm64 CHANNEL=beta VERSION=5.1.0-beta.1 RELEASE=develop
       stage: build
       script: ./scripts/travis.sh
     - dist: xenial
       arch: amd64
-      env: CHANNEL=alpha VERSION=5.1.0-alpha.1 RELEASE=develop
+      env: CHANNEL=beta VERSION=5.1.0-beta.1 RELEASE=develop
       stage: manifest
       script: ./scripts/manifest.sh
