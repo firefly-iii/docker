@@ -4,7 +4,7 @@
 
 ## Feature requests
 
-Just open a ticket or [drop me a line](mailto:thegrumpydictator@gmail.com).
+Just open a ticket or [drop me a line](mailto:james@firefly-iii.org).
 
 ## Pull requests
 
