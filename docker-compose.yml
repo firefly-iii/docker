@@ -1,37 +1,26 @@
---- 
-networks: 
-  firefly_iii_net: 
-    driver: bridge
-services: 
-  firefly_iii_app: 
+version: '3.3'
+
+services:
+  firefly_iii:
     image: jc5x/firefly-iii:latest
+    volumes:
+      - firefly_iii_export:/var/www/firefly-iii/storage/export
+      - firefly_iii_upload:/var/www/firefly-iii/storage/upload
+    env_file: .env
+    ports:
+      - 8080:80
     depends_on:
       - firefly_iii_db
-    networks: 
-      - firefly_iii_net
-    ports: 
-      - "80:80"
-    env_file: .env
-    volumes: 
-      - 
-        source: firefly_iii_export
-        target: /var/www/firefly-iii/storage/export
-        type: volume
-      - 
-        source: firefly_iii_upload
-        target: /var/www/firefly-iii/storage/upload
-        type: volume
-  firefly_iii_db: 
-    image: "postgres:10"
+  
+  firefly_iii_db:
+    image: postgres:10-alpine
     environment:
-      - POSTGRES_PASSWORD=secret_firefly_password
       - POSTGRES_USER=firefly
-    networks: 
-      - firefly_iii_net
-    volumes: 
+      - POSTGRES_PASSWORD=secret_firefly_password
+    volumes:
       - firefly_iii_db:/var/lib/postgresql/data
-version: "3.2"
-volumes: 
-  firefly_iii_db: ~
-  firefly_iii_export: ~
-  firefly_iii_upload: ~
+
+volumes:
+   firefly_iii_export:
+   firefly_iii_upload:
+   firefly_iii_db:
