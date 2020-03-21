@@ -1,5 +1,6 @@
-sudo: required
-language: bash
+language: shell
+dist: xenial
+os: linux
 
 # safelist
 branches:
@@ -12,21 +13,25 @@ services:
 jobs:
   include:
     - dist: xenial
+      os: linux
       arch: amd64
       env: ARCH=amd64 CHANNEL=stable VERSION=5.1.1 RELEASE=develop
       stage: build
       script: ./scripts/travis.sh
     - dist: xenial
+      os: linux
       arch: amd64
       env: ARCH=arm CHANNEL=stable VERSION=5.1.1 RELEASE=develop
       stage: build
       script: ./scripts/travis.sh
     - dist: xenial
+      os: linux
       arch: arm64
       env: ARCH=arm64 CHANNEL=stable VERSION=5.1.1 RELEASE=develop
       stage: build
       script: ./scripts/travis.sh
     - dist: xenial
+      os: linux
       arch: amd64
       env: CHANNEL=stable VERSION=5.1.1 RELEASE=develop
       stage: manifest
