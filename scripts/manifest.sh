@@ -26,7 +26,7 @@ REPOS_NAME=jc5x/firefly-iii
 # 
 # VERSION_TARGET=$REPOS_NAME:release-$VERSION
 
-# if the github branch is develop, only push the 'develop' tag
+# if the VERSION is develop, only push the 'develop' tag
 if [[ $VERSION == "develop" ]]; then
     TARGET=$REPOS_NAME:develop
     ARM32=$REPOS_NAME:develop-arm
@@ -43,7 +43,9 @@ if [[ $VERSION == "develop" ]]; then
     docker manifest push $TARGET
 
     echo "Done managing version '$VERSION'."
+    exit 0
 fi
+
 
 
 echo "Done with manifest for now."

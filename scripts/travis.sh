@@ -53,6 +53,14 @@ if [[ $VERSION == "develop" ]]; then
 fi
 
 
+if [[ $VERSION == *"alpha"* ]]; then
+    echo "'$VERSION' is an alpha build!"
+else
+    echo "'$VERSION' is NOT an alpha build!"
+fi
+
+
+
 echo "end of script for now".
 exit 0
 

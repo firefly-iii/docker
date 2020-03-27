@@ -19,24 +19,24 @@ jobs:
     - dist: xenial
       os: linux
       arch: amd64
-      env: ARCH=amd64 VERSION=develop
+      env: ARCH=amd64 VERSION=5.2.0-alpha.1
       stage: build
       script: ./scripts/travis.sh
     - dist: xenial
       os: linux
       arch: amd64
-      env: ARCH=arm VERSION=develop
+      env: ARCH=arm VERSION=5.2.0-alpha.1
       stage: build
       script: ./scripts/travis.sh
     - dist: xenial
       os: linux
       arch: arm64
-      env: ARCH=arm64 VERSION=develop
+      env: ARCH=arm64 VERSION=5.2.0-alpha.1
       stage: build
       script: ./scripts/travis.sh
     - dist: xenial
       os: linux
       arch: amd64
-      env: VERSION=develop
+      env: VERSION=5.2.0-alpha.1
       stage: manifest
       script: ./scripts/manifest.sh
