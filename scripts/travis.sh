@@ -6,6 +6,7 @@ echo "travis.sh: I am version 1.0 of this script."
 #
 # Configure Docker.
 #
+echo "Configuring Docker..."
 echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
 mkdir $HOME/.docker
 touch $HOME/.docker/config.json
@@ -22,12 +23,12 @@ REPOS_NAME=jc5x/firefly-iii
 #
 # Login to Docker
 #
+echo "Logging into Docker..."
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
 #
 # If ARCH is "arm", do some extra stuff:
 #
-
 if [[ $ARCH == "arm" ]]; then
     echo "Because architecture is $ARCH running some extra commands."
     docker run --rm --privileged multiarch/qemu-user-static:register --reset
@@ -45,7 +46,7 @@ fi
 # 
 if [[ $VERSION == "develop" ]]; then
     LABEL=$REPOS_NAME:develop-$ARCH
-    echo "GitHub branch is $RELEASE. Will build and push $LABEL"
+    echo "VERSION is $VERSION. Will build and push $LABEL."
     docker build -t $LABEL --build-arg version=${VERSION} -f Dockerfile.$ARCH .
     docker push $LABEL
     exit 0
