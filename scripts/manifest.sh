@@ -42,7 +42,7 @@ if [[ $VERSION == "develop" ]]; then
     docker manifest annotate $TARGET $AMD64 --arch amd64 --os linux
     docker manifest push $TARGET
 
-    echo "Done managing version '$VERSION'."
+    echo "Done managing version '$VERSION'. Will now exit."
     exit 0
 fi
 

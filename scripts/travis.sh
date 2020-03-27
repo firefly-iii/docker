@@ -54,9 +54,13 @@ fi
 
 
 if [[ $VERSION == *"alpha"* ]]; then
-    echo "'$VERSION' is an alpha build!"
+    LABEL=$REPOS_NAME:alpha-$ARCH
+    echo "Version is alpha version '$VERSION'. Will build and push '$LABEL'."
+    docker build -t $LABEL --build-arg release=${RELEASE} -f Dockerfile.$ARCH .
+    docker push $LABEL
+    exit 0
 else
-    echo "'$VERSION' is NOT an alpha build!"
+    echo "'$VERSION' is NOT an alpha build. Step will be skipped."
 fi
 
 
@@ -66,10 +70,7 @@ exit 0
 
 # if branch = master AND channel = alpha, build and push 'alpha'
 if [[ $RELEASE == "master" && $CHANNEL == "alpha" ]]; then
-    LABEL=$REPOS_NAME:alpha-$ARCH
-    echo "GitHub branch is $RELEASE and channel is $CHANNEL. Will build and push $LABEL"
-    docker build -t $LABEL --build-arg release=${RELEASE} -f Dockerfile.$ARCH .
-    docker push $LABEL
+
 fi
 
 # if branch is master and channel is alpha, build and push 'alpha' and 'beta'.
