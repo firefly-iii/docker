@@ -50,9 +50,13 @@ if [[ $VERSION == "develop" ]]; then
     docker build -t $LABEL --build-arg version=${VERSION} -f Dockerfile.$ARCH .
     docker push $LABEL
     exit 0
+else
+    echo "'$VERSION' is not 'develop', skip this step."
 fi
 
-
+#
+# If the version seems to be an alpha version, handle it:
+#
 if [[ $VERSION == *"alpha"* ]]; then
     LABEL=$REPOS_NAME:alpha-$ARCH
     echo "Version is alpha version '$VERSION'. Will build and push '$LABEL'."
@@ -61,6 +65,19 @@ if [[ $VERSION == *"alpha"* ]]; then
     exit 0
 else
     echo "'$VERSION' is NOT an alpha build. Step will be skipped."
+fi
+
+#
+# If the version seems to be a beta version, handle it:
+#
+if [[ $VERSION == *"beta"* ]]; then
+    LABEL=$REPOS_NAME:beta-$ARCH
+    echo "Version is beta version '$VERSION'. Will build and push '$LABEL'."
+    docker build -t $LABEL --build-arg release=${RELEASE} -f Dockerfile.$ARCH .
+    docker push $LABEL
+    exit 0
+else
+    echo "'$VERSION' is NOT a beta build. Step will be skipped."
 fi
 
 
