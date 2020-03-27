@@ -1,7 +1,7 @@
 version: '3.3'
 
 services:
-  firefly_iii:
+  fireflyiii:
     image: jc5x/firefly-iii:latest
     volumes:
       - firefly_iii_export:/var/www/firefly-iii/storage/export
@@ -10,9 +10,9 @@ services:
     ports:
       - 80:80
     depends_on:
-      - firefly_iii_db
+      - fireflyiiidb
   
-  firefly_iii_db:
+  fireflyiiidb:
     image: postgres:10-alpine
     environment:
       - POSTGRES_USER=firefly
