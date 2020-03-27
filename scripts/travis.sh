@@ -49,7 +49,6 @@ if [[ $VERSION == "develop" ]]; then
     echo "VERSION is $VERSION. Will build and push $LABEL."
     docker build -t $LABEL --build-arg version=${VERSION} -f Dockerfile.$ARCH .
     docker push $LABEL
-    exit 0
 else
     echo "'$VERSION' is not 'develop', skip this step."
 fi
@@ -63,8 +62,6 @@ if [[ $VERSION == *"alpha"* ]]; then
     echo "Version is alpha version '$VERSION'. Will build and push '$LABEL'."
     docker build -t $LABEL --build-arg version=${VERSION} -f Dockerfile.$ARCH .
     docker push $LABEL
-
-    exit 0
 else
     echo "'$VERSION' is NOT an alpha build. Step will be skipped."
 fi
@@ -78,8 +75,6 @@ if [[ $VERSION == *"beta"* ]]; then
     echo "Version is beta version '$VERSION'. Will build and push '$LABEL'."
     docker build -t $LABEL --build-arg version=${VERSION} -f Dockerfile.$ARCH .
     docker push $LABEL
-
-    exit 0
 else
     echo "'$VERSION' is NOT a beta build. Step will be skipped."
 fi
@@ -89,17 +84,23 @@ fi
 # - build   'stable-$ARCH'
 # - tag as  'latest-$ARCH'
 #
+if [[ $VERSION != *"beta"* && $VERSION != *"alpha"* ]]; then
+    echo "'$VERSION' is not beta or alpha. Build it."
 
-# first build stable
-LABEL=$REPOS_NAME:stable-$ARCH
-echo "VERSION is '$VERSION'. Will build and push $LABEL"
-docker build -t $LABEL --build-arg version=${VERSION} -f Dockerfile.$ARCH .
-docker push $LABEL
+    # first build stable
+    LABEL=$REPOS_NAME:stable-$ARCH
+    echo "VERSION is '$VERSION'. Will build and push $LABEL"
+    docker build -t $LABEL --build-arg version=${VERSION} -f Dockerfile.$ARCH .
+    docker push $LABEL
 
-# then tag as latest and push:
-docker tag $LABEL $REPOS_NAME:latest-$ARCH
-docker push $REPOS_NAME:latest-$ARCH
-echo "Also tagged $LABEL as $REPOS_NAME:latest-$ARCH and pushed"
+    # then tag as latest and push:
+    docker tag $LABEL $REPOS_NAME:latest-$ARCH
+    docker push $REPOS_NAME:latest-$ARCH
+    echo "Also tagged $LABEL as $REPOS_NAME:latest-$ARCH and pushed"
+else
+    echo "'$VERSION' is NOT a stable build. Step will be skipped."
+fi
+
 
 # finally, tag a version and push:
 
