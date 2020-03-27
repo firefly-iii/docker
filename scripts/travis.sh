@@ -55,100 +55,55 @@ else
 fi
 
 #
-# If the version seems to be an alpha version, handle it:
+# If the version seems to be an alpha version:
+# - build 'alpha-$ARCH'
 #
 if [[ $VERSION == *"alpha"* ]]; then
     LABEL=$REPOS_NAME:alpha-$ARCH
     echo "Version is alpha version '$VERSION'. Will build and push '$LABEL'."
-    docker build -t $LABEL --build-arg release=${RELEASE} -f Dockerfile.$ARCH .
+    docker build -t $LABEL --build-arg version=${VERSION} -f Dockerfile.$ARCH .
     docker push $LABEL
+
     exit 0
 else
     echo "'$VERSION' is NOT an alpha build. Step will be skipped."
 fi
 
 #
-# If the version seems to be a beta version, handle it:
+# If the version seems to be a beta version:
+# - build    'beta-$ARCH'
 #
 if [[ $VERSION == *"beta"* ]]; then
     LABEL=$REPOS_NAME:beta-$ARCH
     echo "Version is beta version '$VERSION'. Will build and push '$LABEL'."
-    docker build -t $LABEL --build-arg release=${RELEASE} -f Dockerfile.$ARCH .
+    docker build -t $LABEL --build-arg version=${VERSION} -f Dockerfile.$ARCH .
     docker push $LABEL
+
     exit 0
 else
     echo "'$VERSION' is NOT a beta build. Step will be skipped."
 fi
 
+#
+# If nothing else, build as release:
+# - build   'stable-$ARCH'
+# - tag as  'latest-$ARCH'
+#
 
+# first build stable
+LABEL=$REPOS_NAME:stable-$ARCH
+echo "VERSION is '$VERSION'. Will build and push $LABEL"
+docker build -t $LABEL --build-arg version=${VERSION} -f Dockerfile.$ARCH .
+docker push $LABEL
 
-echo "end of script for now".
-exit 0
+# then tag as latest and push:
+docker tag $LABEL $REPOS_NAME:latest-$ARCH
+docker push $REPOS_NAME:latest-$ARCH
+echo "Also tagged $LABEL as $REPOS_NAME:latest-$ARCH and pushed"
 
-# if branch = master AND channel = alpha, build and push 'alpha'
-if [[ $RELEASE == "master" && $CHANNEL == "alpha" ]]; then
+# finally, tag a version and push:
 
-fi
-
-# if branch is master and channel is alpha, build and push 'alpha' and 'beta'.
-if [[ $RELEASE == "master" && $CHANNEL == "beta" ]]; then
-    LABEL=$REPOS_NAME:beta-$ARCH
-    echo "GitHub branch is $RELEASE and channel is $CHANNEL. Will build and push $LABEL"
-    docker build -t $LABEL --build-arg release=${RELEASE} -f Dockerfile.$ARCH .
-    docker push $LABEL
-
-    # then tag as alpha and push:
-    docker tag $LABEL $REPOS_NAME:alpha-$ARCH
-    docker push $REPOS_NAME:alpha-$ARCH
-    echo "Also tagged $LABEL as $REPOS_NAME:alpha-$ARCH and pushed"
-fi
-
-# if branch is master and channel is stable, push 'alpha' and 'beta' and 'stable'.
-if [[ $RELEASE == "master" && $CHANNEL == "stable" ]]; then
-    # first build stable
-    LABEL=$REPOS_NAME:stable-$ARCH
-    echo "GitHub branch is $RELEASE and channel is $CHANNEL. Will build and push $LABEL"
-    docker build -t $LABEL --build-arg release=${RELEASE} -f Dockerfile.$ARCH .
-    docker push $LABEL
-
-    # then tag as beta and push:
-    docker tag $LABEL $REPOS_NAME:beta-$ARCH
-    docker push $REPOS_NAME:beta-$ARCH
-    echo "Also tagged $LABEL as $REPOS_NAME:beta-$ARCH and pushed"
-
-    # then tag as alpha and push:
-    docker tag $LABEL $REPOS_NAME:alpha-$ARCH
-    docker push $REPOS_NAME:alpha-$ARCH
-    echo "Also tagged $LABEL as $REPOS_NAME:alpha-$ARCH and pushed"
-
-    # then tag as latest and push:
-    docker tag $LABEL $REPOS_NAME:latest-$ARCH
-    docker push $REPOS_NAME:latest-$ARCH
-    echo "Also tagged $LABEL as $REPOS_NAME:latest-$ARCH and pushed"
-fi
-
-# push to channel 'version' if master + alpha
-if [[ $RELEASE == "master" && $CHANNEL == "alpha" ]]; then
-    LABEL=$REPOS_NAME:version-$VERSION-$ARCH
-    echo "GitHub release is $RELEASE and channel is $CHANNEL. Will also push alpha as $LABEL"
-    docker tag $REPOS_NAME:alpha-$ARCH $LABEL
-    docker push $LABEL
-fi
-
-# push to channel 'version' if master + beta
-if [[ $RELEASE == "master" && $CHANNEL == "beta" ]]; then
-    LABEL=$REPOS_NAME:version-$VERSION-$ARCH
-    echo "GitHub release is $RELEASE and channel is $CHANNEL. Will also push beta as $LABEL"
-    docker tag $REPOS_NAME:beta-$ARCH $LABEL
-    docker push $LABEL
-fi
-
-# push to channel 'version' if master + stable
-if [[ $RELEASE == "master" && $CHANNEL == "stable" ]]; then
-    LABEL=$REPOS_NAME:version-$VERSION-$ARCH
-    echo "GitHub release is $RELEASE and channel is $CHANNEL. Will also push beta as $LABEL"
-    docker tag $REPOS_NAME:stable-$ARCH $LABEL
-    docker push $LABEL
-fi
-
-echo "Done!"
+LABEL=$REPOS_NAME:version-$VERSION-$ARCH
+echo "Version is '$VERSION'. Will also push label '$LABEL'"
+docker tag $REPOS_NAME:beta-$ARCH $LABEL
+docker push $LABEL
