@@ -2,7 +2,6 @@ language: shell
 dist: xenial
 os: linux
 
-# safelist
 branches:
   only:
   - master
@@ -10,29 +9,34 @@ branches:
 services:
   - docker
 
+#
+# Job configuration:
+# - ARCH    = The architecture of the build. This should match the "arch:"" argument of the build itself.
+# - VERSION = Either the version to build OR "develop" to build the latest develop version.
+
 jobs:
   include:
     - dist: xenial
       os: linux
       arch: amd64
-      env: VERSION_ONLY=false ARCH=amd64 CHANNEL=alpha VERSION=5.2.0-alpha.1 RELEASE=develop
+      env: ARCH=amd64 VERSION=5.2.0-alpha.1
       stage: build
       script: ./scripts/travis.sh
     - dist: xenial
       os: linux
       arch: amd64
-      env: VERSION_ONLY=false ARCH=arm CHANNEL=alpha VERSION=5.2.0-alpha.1 RELEASE=develop
+      env: ARCH=arm VERSION=5.2.0-alpha.1
       stage: build
       script: ./scripts/travis.sh
     - dist: xenial
       os: linux
       arch: arm64
-      env: VERSION_ONLY=false ARCH=arm64 CHANNEL=alpha VERSION=5.2.0-alpha.1 RELEASE=develop
+      env: ARCH=arm64 VERSION=5.2.0-alpha.1
       stage: build
       script: ./scripts/travis.sh
     - dist: xenial
       os: linux
       arch: amd64
-      env: VERSION_ONLY=false CHANNEL=alpha VERSION=5.2.0-alpha.1 RELEASE=develop
+      env: VERSION=5.2.0-alpha.1
       stage: manifest
       script: ./scripts/manifest.sh

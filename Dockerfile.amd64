@@ -2,8 +2,8 @@ FROM jc5x/firefly-iii-base-image:latest-amd64
 
 # See also: https://github.com/JC5/firefly-iii-base-image
 
-ARG release
-ENV RELEASE=$release
+ARG version
+ENV VERSION=$version
 
 ENV FIREFLY_PATH=/var/www/firefly-iii COMPOSER_ALLOW_SUPERUSER=1
 LABEL version="2.0" maintainer="thegrumpydictator@gmail.com"
@@ -12,7 +12,7 @@ LABEL version="2.0" maintainer="thegrumpydictator@gmail.com"
 RUN mkdir /var/www/firefly-iii 
 WORKDIR /var/www/firefly-iii
 
-RUN curl -SL https://github.com/firefly-iii/firefly-iii/archive/$RELEASE.tar.gz | tar xzC /var/www/firefly-iii --strip-components 1 && chown -R www-data:www-data /var/www && \
+RUN curl -SL https://github.com/firefly-iii/firefly-iii/archive/$VERSION.tar.gz | tar xzC /var/www/firefly-iii --strip-components 1 && chown -R www-data:www-data /var/www && \
     chmod -R 775 $FIREFLY_PATH/storage && \
     composer install --prefer-dist --no-dev --no-scripts --no-suggest
 
@@ -23,4 +23,5 @@ EXPOSE 80
 COPY [ "scripts/wait-for-it.sh", "/wait-for-it.sh" ]
 COPY [ "scripts/entrypoint.sh", "/entrypoint.sh" ]
 
+RUN chmod +x /entrypoint.sh && chmod +x /wait-for-it.sh
 ENTRYPOINT ["/entrypoint.sh"]

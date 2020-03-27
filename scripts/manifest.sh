@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+echo "Manifest is temporarily disabled"
+
+exit 0
+
+
+# ----------------------------------------------------------------------
+
 echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
 mkdir $HOME/.docker
 touch $HOME/.docker/config.json

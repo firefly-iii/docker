@@ -1,21 +1,32 @@
 #!/usr/bin/env bash
 
-echo "travis.sh: I am building channel ${CHANNEL} for version ${VERSION} on architecture ${ARCH}, branch $RELEASE."
+echo "travis.sh: I am building version '${VERSION}' on architecture ${ARCH}."
+echo "travis.sh: I am version 1.0 of this script."
 
+#
+# Configure Docker.
+#
 echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
 mkdir $HOME/.docker
 touch $HOME/.docker/config.json
 echo '{"experimental":"enabled"}' | sudo tee $HOME/.docker/config.json
 sudo service docker restart
 
-
+#
 # easy switch between test and pr repository.
-#REPOS_NAME=jc5x/ff-test-builds # jc5x/firefly-iii
-REPOS_NAME=jc5x/firefly-iii # jc5x/firefly-iii
+#
 
+#REPOS_NAME=jc5x/ff-test-builds
+REPOS_NAME=jc5x/firefly-iii
 
-# First build amd64 image:
+#
+# Login to Docker
+#
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+#
+# If ARCH is "arm", do some extra stuff:
+#
 
 if [[ $ARCH == "arm" ]]; then
     echo "Because architecture is $ARCH running some extra commands."
@@ -29,13 +40,20 @@ if [[ $ARCH == "arm" ]]; then
     popd
 fi
 
-# if the release is develop, build and push develop. Don't push a version tag anymore.
-if [[ $RELEASE == "develop" ]]; then
+#
+# if the VERSION is "develop", build and push develop, and do nothing else.
+# 
+if [[ $VERSION == "develop" ]]; then
     LABEL=$REPOS_NAME:develop-$ARCH
     echo "GitHub branch is $RELEASE. Will build and push $LABEL"
-    docker build -t $LABEL --build-arg release=${RELEASE} -f Dockerfile.$ARCH .
+    docker build -t $LABEL --build-arg version=${VERSION} -f Dockerfile.$ARCH .
     docker push $LABEL
+    exit 0
 fi
+
+
+echo "end of script for now".
+exit 0
 
 # if branch = master AND channel = alpha, build and push 'alpha'
 if [[ $RELEASE == "master" && $CHANNEL == "alpha" ]]; then
