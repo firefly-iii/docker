@@ -87,15 +87,14 @@ fi
 # Merge latest (stable)
 #
 if [[ $VERSION != *"alpha"* && $VERSION != *"beta"* ]]; then
-    echo "VERSION is '$VERSION'."
-    echo "Push latest-* builds to $TARGET"
+    echo "VERSION is '$VERSION', not alpha and not beta."
 
     TARGET=$REPOS_NAME:stable
     ARM32=$REPOS_NAME:stable-arm
     ARM64=$REPOS_NAME:stable-arm64
     AMD64=$REPOS_NAME:stable-amd64
 
-    echo "Push stable-* builds to $TARGET"
+    echo "Push latest-* builds to $TARGET"
 
     docker manifest create $TARGET $ARM32 $ARM64 $AMD64
     docker manifest annotate $TARGET $ARM32 --arch arm   --os linux
@@ -109,6 +108,12 @@ if [[ $VERSION != *"alpha"* && $VERSION != *"beta"* ]]; then
     AMD64=$REPOS_NAME:stable-amd64
 
     echo "Push stable-* builds to $TARGET"
+
+    docker manifest create $TARGET $ARM32 $ARM64 $AMD64
+    docker manifest annotate $TARGET $ARM32 --arch arm   --os linux
+    docker manifest annotate $TARGET $ARM64 --arch arm64 --os linux
+    docker manifest annotate $TARGET $AMD64 --arch amd64 --os linux
+    docker manifest push $TARGET
 
 else
     echo "VERSION '$VERSION' is not a stable version, skip this step."
