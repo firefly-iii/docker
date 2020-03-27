@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 
-echo "Manifest is temporarily disabled"
-
-exit 0
-
-
-# ----------------------------------------------------------------------
+#
+# Configure Docker:
+# 
 
 echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
 mkdir $HOME/.docker
@@ -13,22 +10,30 @@ touch $HOME/.docker/config.json
 echo '{"experimental":"enabled"}' | sudo tee $HOME/.docker/config.json
 sudo service docker restart
 
+#
+# Login to Docker
+#
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
+#
 # easy switch between test and pr repository.
+#
 #REPOS_NAME=jc5x/ff-test-builds
 REPOS_NAME=jc5x/firefly-iii
 
-VERSION_TARGET=$REPOS_NAME:release-$VERSION
+#
+# OLD CODE REMOVE ME.
+# 
+# VERSION_TARGET=$REPOS_NAME:release-$VERSION
 
 # if the github branch is develop, only push the 'develop' tag
-if [[ $RELEASE == "develop" ]]; then
+if [[ $VERSION == "develop" ]]; then
     TARGET=$REPOS_NAME:develop
     ARM32=$REPOS_NAME:develop-arm
     ARM64=$REPOS_NAME:develop-arm64
     AMD64=$REPOS_NAME:develop-amd64
 
-    echo "GitHub branch is $RELEASE."
+    echo "VERSION is '$VERSION'."
     echo "Push develop-* builds to $TARGET"
 
     docker manifest create $TARGET $ARM32 $ARM64 $AMD64
@@ -36,7 +41,15 @@ if [[ $RELEASE == "develop" ]]; then
     docker manifest annotate $TARGET $ARM64 --arch arm64 --os linux
     docker manifest annotate $TARGET $AMD64 --arch amd64 --os linux
     docker manifest push $TARGET
+
+    echo "Done managing version '$VERSION'."
 fi
+
+
+echo "Done with manifest for now."
+
+exit 0
+
 
 # if branch = master AND channel = alpha, push 'alpha'
 if [[ $RELEASE == "master" && $CHANNEL == "alpha" ]]; then
