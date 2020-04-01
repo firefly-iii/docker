@@ -108,3 +108,5 @@ VERSIONLABEL=$REPOS_NAME:release-$VERSION-$ARCH
 echo "Version is '$VERSION'. Will also push label '$VERSIONLABEL'"
 docker tag $BUILDLABEL $VERSIONLABEL
 docker push $VERSIONLABEL
+
+echo "Done!"

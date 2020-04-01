@@ -137,3 +137,7 @@ docker manifest annotate $VERSION_TARGET $VERSION_ARM32 --arch arm   --os linux
 docker manifest annotate $VERSION_TARGET $VERSION_ARM64 --arch arm64 --os linux
 docker manifest annotate $VERSION_TARGET $VERSION_AMD64 --arch amd64 --os linux
 docker manifest push $VERSION_TARGET
+
+
+echo 'Done!'
+# done!
