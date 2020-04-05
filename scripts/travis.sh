@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
 
-echo "travis.sh: I am building version '${VERSION}' on architecture ${ARCH}."
-echo "travis.sh: I am version 1.0 of this script."
+#
+# Step 1: set repos name.
+#
+REPOS_NAME=jc5x/firefly-iii
 
 #
-# Configure Docker.
+# Step 2: echo some info
 #
-echo "Configuring Docker..."
+echo "travis.sh v2.0: I am building '${VERSION}' on architecture ${ARCH} for ${REPOS_NAME}."
+
+#
+# Step 3: configure docker
+#
 echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
 mkdir $HOME/.docker
 touch $HOME/.docker/config.json
@@ -14,22 +20,14 @@ echo '{"experimental":"enabled"}' | sudo tee $HOME/.docker/config.json
 sudo service docker restart
 
 #
-# easy switch between test and pr repository.
+# Step 4: login to docker
 #
-
-#REPOS_NAME=jc5x/ff-test-builds
-REPOS_NAME=jc5x/firefly-iii
-
-#
-# Login to Docker
-#
-echo "Logging into Docker..."
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
 #
-# If ARCH is "arm", do some extra stuff:
+# Step 5: optional ARM package.
 #
-if [[ $ARCH == "arm" ]]; then
+if [ $ARCH == "arm" ]; then
     echo "Because architecture is $ARCH running some extra commands."
     docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
@@ -42,7 +40,7 @@ if [[ $ARCH == "arm" ]]; then
 fi
 
 #
-# if the VERSION is "develop", build and push develop, and do nothing else.
+# Step 6: If version is "develop" build and push develop.
 # 
 if [[ $VERSION == "develop" ]]; then
     BUILDLABEL=$REPOS_NAME:develop-$ARCH
@@ -54,8 +52,7 @@ else
 fi
 
 #
-# If the version seems to be an alpha version:
-# - build 'alpha-$ARCH'
+# Step 7: If version like "alpha", build and push alpha.
 #
 if [[ $VERSION == *"alpha"* ]]; then
     BUILDLABEL=$REPOS_NAME:alpha-$ARCH
@@ -67,8 +64,7 @@ else
 fi
 
 #
-# If the version seems to be a beta version:
-# - build    'beta-$ARCH'
+# Step 8: If version like "beta", build and push beta.
 #
 if [[ $VERSION == *"beta"* ]]; then
     BUILDLABEL=$REPOS_NAME:beta-$ARCH
@@ -80,11 +76,9 @@ else
 fi
 
 #
-# If nothing else, build as release:
-# - build   'stable-$ARCH'
-# - tag as  'latest-$ARCH'
+# Step 9: If version not like alpha, beta, develop, build and push stable+latest
 #
-if [[ $VERSION != *"beta"* && $VERSION != *"alpha"* ]]; then
+if [[ $VERSION != *"beta"* && $VERSION != *"alpha"* && $VERSION != *"develop"* ]]; then
     echo "'$VERSION' is not beta or alpha. Build it."
 
     # first build stable
@@ -101,12 +95,16 @@ else
     echo "'$VERSION' is NOT a stable build. Step will be skipped."
 fi
 
-
-# finally, tag a version and push:
-
-VERSIONLABEL=$REPOS_NAME:release-$VERSION-$ARCH
-echo "Version is '$VERSION'. Will also push label '$VERSIONLABEL'"
-docker tag $BUILDLABEL $VERSIONLABEL
-docker push $VERSIONLABEL
+#
+# Step 10: If version not like "develop", build and push "version"
+#
+if [[ $VERSION == "develop" ]]; then
+    VERSIONLABEL=$REPOS_NAME:release-$VERSION-$ARCH
+    echo "Version is '$VERSION'. Will also push label '$VERSIONLABEL'"
+    docker tag $BUILDLABEL $VERSIONLABEL
+    docker push $VERSIONLABEL
+else
+    echo "'$VERSION' is 'develop', so will not push version."
+fi
 
 echo "Done!"
