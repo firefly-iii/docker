@@ -1,8 +1,18 @@
 #!/usr/bin/env bash
 
 #
-# Configure Docker:
-# 
+# Step 1: Set repos name.
+#
+REPOS_NAME=jc5x/firefly-iii
+
+#
+# Echo info:
+#
+echo "Manifest script version 2.0 for $REPOS_NAME."
+
+#
+# Step 2: configure Docker
+#
 
 echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
 mkdir $HOME/.docker
@@ -11,17 +21,14 @@ echo '{"experimental":"enabled"}' | sudo tee $HOME/.docker/config.json
 sudo service docker restart
 
 #
-# Login to Docker
+# Step 3: Login to Docker
 #
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
 #
-# easy switch between test and pr repository.
+# Step 4: If version is "develop" exactly, annotate and push develop. Exit after.
 #
-#REPOS_NAME=jc5x/ff-test-builds
-REPOS_NAME=jc5x/firefly-iii
 
-# if the VERSION is develop, only push the 'develop' tag
 if [[ $VERSION == "develop" ]]; then
     TARGET=$REPOS_NAME:develop
     ARM32=$REPOS_NAME:develop-arm
@@ -39,11 +46,15 @@ if [[ $VERSION == "develop" ]]; then
 
     echo "Done managing version '$VERSION'. Will now exit."
     exit 0
+else
+    echo "Version '$VERSION' is not 'develop', skipped building develop."
 fi
 
+
 #
-# Merge alpha
-#
+# Step 5: If version like "alpha", annotate and push alpha.
+# 
+
 if [[ $VERSION == *"alpha"* ]]; then
     TARGET=$REPOS_NAME:alpha
     ARM32=$REPOS_NAME:alpha-arm
@@ -63,7 +74,7 @@ else
 fi
 
 #
-# Merge beta
+# Step 6: If version like "beta", annotate and push beta.
 #
 if [[ $VERSION == *"beta"* ]]; then
     TARGET=$REPOS_NAME:beta
@@ -84,10 +95,10 @@ else
 fi
 
 #
-# Merge latest (stable)
+# Step 7: If version not like "alpha, beta, develop", annotate and push stable + latest.
 #
-if [[ $VERSION != *"alpha"* && $VERSION != *"beta"* ]]; then
-    echo "VERSION is '$VERSION', not alpha and not beta."
+if [[ $VERSION != *"alpha"* && $VERSION != *"beta"* && $VERSION != *"develop"* ]]; then
+    echo "VERSION is '$VERSION', not alpha, not beta, not develop."
 
     TARGET=$REPOS_NAME:stable
     ARM32=$REPOS_NAME:stable-arm
@@ -120,24 +131,27 @@ else
 fi
 
 #
-# Push the new version tags as well:
+# Step 8: If version not like "develop", annotate and push $version.
 #
-VERSION_TARGET=$REPOS_NAME:release-$VERSION
-VERSION_ARM32=$REPOS_NAME:release-$VERSION-arm
-VERSION_ARM64=$REPOS_NAME:release-$VERSION-arm64
-VERSION_AMD64=$REPOS_NAME:release-$VERSION-amd64
+if [[ $VERSION != *"develop"* ]]; then
+    VERSION_TARGET=$REPOS_NAME:release-$VERSION
+    VERSION_ARM32=$REPOS_NAME:release-$VERSION-arm
+    VERSION_ARM64=$REPOS_NAME:release-$VERSION-arm64
+    VERSION_AMD64=$REPOS_NAME:release-$VERSION-amd64
 
-echo "Version release is '$VERSION_TARGET'."
-echo "Will merge ARM   release '$VERSION_ARM32' into '$VERSION_TARGET'."
-echo "Will merge ARM64 release '$VERSION_ARM64' into '$VERSION_TARGET'."
-echo "Will merge AMD64 release '$VERSION_AMD64' into '$VERSION_TARGET'."
+    echo "Version release is '$VERSION_TARGET'."
+    echo "Will merge ARM   release '$VERSION_ARM32' into '$VERSION_TARGET'."
+    echo "Will merge ARM64 release '$VERSION_ARM64' into '$VERSION_TARGET'."
+    echo "Will merge AMD64 release '$VERSION_AMD64' into '$VERSION_TARGET'."
 
-docker manifest create $VERSION_TARGET $VERSION_ARM32 $VERSION_ARM64 $VERSION_AMD64
-docker manifest annotate $VERSION_TARGET $VERSION_ARM32 --arch arm   --os linux
-docker manifest annotate $VERSION_TARGET $VERSION_ARM64 --arch arm64 --os linux
-docker manifest annotate $VERSION_TARGET $VERSION_AMD64 --arch amd64 --os linux
-docker manifest push $VERSION_TARGET
-
+    docker manifest create $VERSION_TARGET $VERSION_ARM32 $VERSION_ARM64 $VERSION_AMD64
+    docker manifest annotate $VERSION_TARGET $VERSION_ARM32 --arch arm   --os linux
+    docker manifest annotate $VERSION_TARGET $VERSION_ARM64 --arch arm64 --os linux
+    docker manifest annotate $VERSION_TARGET $VERSION_AMD64 --arch amd64 --os linux
+    docker manifest push $VERSION_TARGET
+else
+    echo "VERSION '$VERSION' is not a version release, skip this step."
+fi
 
 echo 'Done!'
 # done!
