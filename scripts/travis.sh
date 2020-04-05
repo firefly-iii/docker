@@ -98,7 +98,7 @@ fi
 #
 # Step 10: If version not like "develop", build and push "version"
 #
-if [[ $VERSION == "develop" ]]; then
+if [[ $VERSION != "develop" ]]; then
     VERSIONLABEL=$REPOS_NAME:release-$VERSION-$ARCH
     echo "Version is '$VERSION'. Will also push label '$VERSIONLABEL'"
     docker tag $BUILDLABEL $VERSIONLABEL
