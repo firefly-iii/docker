@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Now in entrypoint.sh for Firefly III"
-echo "Entrypoint script version is 1.0.4 (2020-03-05)"
+echo "Entrypoint script version is 1.0.5 (2020-05-25)"
 
 # https://github.com/docker-library/wordpress/blob/master/docker-entrypoint.sh
 # usage: file_env VAR [DEFAULT]
@@ -224,6 +224,7 @@ php artisan config:cache
 echo "Run chown on ${FIREFLY_PATH}/storage"
 chown -R www-data:www-data -R $FIREFLY_PATH/storage
 
+# set docker var.
 export IS_DOCKER=true
 
 php artisan firefly:instructions install
