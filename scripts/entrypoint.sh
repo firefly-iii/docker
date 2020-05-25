@@ -224,6 +224,8 @@ php artisan config:cache
 echo "Run chown on ${FIREFLY_PATH}/storage"
 chown -R www-data:www-data -R $FIREFLY_PATH/storage
 
+export IS_DOCKER=true
+
 php artisan firefly:instructions install
 
 echo "Go!"
