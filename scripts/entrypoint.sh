@@ -116,7 +116,7 @@ fi
 
 # make sure we own the volumes:
 echo "Run chown on ${FIREFLY_PATH}/storage..."
-chown -R www-data:www-data -R $FIREFLY_PATH/storage
+chown -R www-data:www-data $FIREFLY_PATH/storage
 echo "Run chmod on ${FIREFLY_PATH}/storage..."
 chmod -R 775 $FIREFLY_PATH/storage
 
@@ -205,7 +205,6 @@ else
   php artisan firefly-iii:report-empty-objects
   php artisan firefly-iii:report-sum
 fi
-
 
 php artisan firefly-iii:restore-oauth-keys
 
