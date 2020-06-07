@@ -15,6 +15,11 @@ COPY [ "scripts/wait-for-it.sh", "/wait-for-it.sh" ]
 COPY [ "scripts/entrypoint.sh", "/entrypoint.sh" ]
 RUN chmod +x /entrypoint.sh && chmod +x /wait-for-it.sh && mkdir /var/www/firefly-iii && chown -R www-data:www-data /var/www/firefly-iii 
 
+RUN apt -qy update && \
+    apt -qy install sudo && \
+    usermod -a -G sudo www-data && \
+    echo "%sudo ALL=(ALL) NOPASSWD: $( which apache2-foreground )" >> /etc/sudoers.d/ugly-workaround
+
 USER www-data
 
 WORKDIR /var/www/firefly-iii
@@ -26,7 +31,5 @@ RUN curl -SL https://github.com/firefly-iii/firefly-iii/archive/$VERSION.tar.gz 
 
 EXPOSE 80
 VOLUME $FIREFLY_PATH/storage/export $FIREFLY_PATH/storage/upload
-
-USER root
 
 ENTRYPOINT ["/entrypoint.sh"]

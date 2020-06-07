@@ -229,4 +229,4 @@ export IS_DOCKER=true
 php artisan firefly:instructions install
 
 echo "Go!"
-exec apache2-foreground
+exec sudo $( which apache2-foreground )
