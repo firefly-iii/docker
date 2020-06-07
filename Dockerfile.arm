@@ -19,7 +19,7 @@ USER www-data
 
 WORKDIR /var/www/firefly-iii
 
-RUN curl -SL https://github.com/firefly-iii/firefly-iii/archive/$VERSION.tar.gz | tar xzC /var/www/firefly-iii --strip-components 1 && chown -R www-data:www-data /var/www && \
+RUN curl -SL https://github.com/firefly-iii/firefly-iii/archive/$VERSION.tar.gz | tar xzC /var/www/firefly-iii --strip-components 1 && \
     chmod -R 775 $FIREFLY_PATH/storage && \
     composer install --prefer-dist --no-dev --no-scripts --no-suggest
 
