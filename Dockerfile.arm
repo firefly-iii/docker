@@ -27,4 +27,6 @@ RUN curl -SL https://github.com/firefly-iii/firefly-iii/archive/$VERSION.tar.gz 
 EXPOSE 80
 VOLUME $FIREFLY_PATH/storage/export $FIREFLY_PATH/storage/upload
 
+USER root
+
 ENTRYPOINT ["/entrypoint.sh"]

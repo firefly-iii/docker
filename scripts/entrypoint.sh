@@ -222,7 +222,7 @@ php artisan config:cache
 
 # make sure we own everything (again)
 echo "Run chown on ${FIREFLY_PATH}/storage"
-chown -R www-data:www-data -R $FIREFLY_PATH/storage
+chown -R www-data:www-data $FIREFLY_PATH/storage
 
 # set docker var.
 export IS_DOCKER=true
