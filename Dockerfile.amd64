@@ -1,7 +1,5 @@
 FROM jc5x/firefly-iii-base-image:latest-amd64
 
-USER root
-
 # See also: https://github.com/JC5/firefly-iii-base-image
 
 ARG version
@@ -10,23 +8,25 @@ ENV VERSION=$version
 ENV FIREFLY_PATH=/var/www/firefly-iii COMPOSER_ALLOW_SUPERUSER=1
 LABEL version="2.0" maintainer="thegrumpydictator@gmail.com"
 
-# set up some stuff under root.
+# set up some stuff under root
 COPY [ "scripts/wait-for-it.sh", "/wait-for-it.sh" ]
 COPY [ "scripts/entrypoint.sh", "/entrypoint.sh" ]
-RUN chmod +x /entrypoint.sh && chmod +x /wait-for-it.sh && mkdir /var/www/firefly-iii && chown -R www-data:www-data /var/www/firefly-iii 
+COPY [ "scripts/prep-image.sh", "/prep-image.sh" ]
+COPY [ "scripts/finalize-image.sh", "/finalize-image.sh" ]
 
-USER www-data
+# make all scripts executable and execute prep-image
+RUN chmod +x /wait-for-it.sh && chmod +x /entrypoint.sh && chmod +x /prep-image.sh && chmod +x /finalize-image.sh && bash /prep-image.sh
 
 WORKDIR /var/www/firefly-iii
 
+# install Firefly III and execute finalize-image.
 RUN curl -SL https://github.com/firefly-iii/firefly-iii/archive/$VERSION.tar.gz | tar xzC /var/www/firefly-iii --strip-components 1 && \
     chmod -R 775 $FIREFLY_PATH/storage && \
-    composer install --prefer-dist --no-dev --no-scripts --no-suggest
-
+    composer install --prefer-dist --no-dev --no-scripts --no-suggest && bash /finalize-image.sh
 
 EXPOSE 80
 VOLUME $FIREFLY_PATH/storage/export $FIREFLY_PATH/storage/upload
 
-USER root
+USER www-data
 
 ENTRYPOINT ["/entrypoint.sh"]
