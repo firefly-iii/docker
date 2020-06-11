@@ -24,7 +24,7 @@ RUN curl -SL https://github.com/firefly-iii/firefly-iii/archive/$VERSION.tar.gz 
     chmod -R 775 $FIREFLY_PATH/storage && \
     composer install --prefer-dist --no-dev --no-scripts --no-suggest && bash /finalize-image.sh
 
-EXPOSE 80
+EXPOSE 8080
 VOLUME $FIREFLY_PATH/storage/export $FIREFLY_PATH/storage/upload
 
 USER www-data
