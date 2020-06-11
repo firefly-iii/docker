@@ -15,7 +15,7 @@ COPY [ "scripts/prep-image.sh", "/prep-image.sh" ]
 COPY [ "scripts/finalize-image.sh", "/finalize-image.sh" ]
 
 # make all scripts executable and execute prep-image
-RUN chmod +x /wait-for-it.sh && chmod +x /entrypoint.sh && chmod +x /prep-image.sh && chmod +x /finalize-image.sh && bash /prep-image.sh
+RUN chmod +x /*.sh && chmod +x /*.sh && bash /prep-image.sh
 
 WORKDIR /var/www/firefly-iii
 
