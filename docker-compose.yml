@@ -13,14 +13,12 @@ services:
       - fireflyiiidb
   
   fireflyiiidb:
-    image: mariadb:10.4-bionic
+    image: postgres:10-alpine
     environment:
-      - MYSQL_RANDOM_ROOT_PASSWORD=yes
-      - MYSQL_USER=firefly
-      - MYSQL_PASSWORD=secret_firefly_password
-      - MYSQL_DATABASE=firefly
+      - POSTGRES_USER=firefly
+      - POSTGRES_PASSWORD=secret_firefly_password
     volumes:
-      - firefly_iii_db:/var/lib/mysql
+      - firefly_iii_db:/var/lib/postgresql/data
 
 volumes:
    firefly_iii_export:
