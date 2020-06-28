@@ -9,7 +9,7 @@ os: linux
 
 branches:
   only:
-  - master
+  - main
 
 services:
   - docker
