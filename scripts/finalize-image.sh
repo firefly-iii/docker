@@ -22,6 +22,6 @@ mkdir -p $FIREFLY_PATH/storage/upload
 echo "CHOWN..."
 
 chown -R www-data:www-data $FIREFLY_PATH
-chmod -R 775 $FIREFLY_PATH/storage
+chmod -R 777 $FIREFLY_PATH/storage
 
 rm -f $FIREFLY_PATH/storage/logs/laravel.log
