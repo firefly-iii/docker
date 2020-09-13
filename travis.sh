@@ -45,7 +45,7 @@ fi
 if [[ $VERSION == "develop" ]]; then
     BUILDLABEL=$REPOS_NAME:develop-$ARCH
     echo "VERSION is $VERSION. Will build and push $BUILDLABEL."
-    docker build -t $BUILDLABEL --build-arg version=${VERSION} -f Dockerfile.$ARCH .
+    docker build -t $BUILDLABEL --build-arg version=$VERSION -f Dockerfile.$ARCH .
     docker push $BUILDLABEL
 else
     echo "'$VERSION' is not 'develop', skip this step."
@@ -57,7 +57,7 @@ fi
 if [[ $VERSION == *"alpha"* ]]; then
     BUILDLABEL=$REPOS_NAME:alpha-$ARCH
     echo "Version is alpha version '$VERSION'. Will build and push '$BUILDLABEL'."
-    docker build -t $BUILDLABEL --build-arg version=${VERSION} -f Dockerfile.$ARCH .
+    docker build -t $BUILDLABEL --build-arg version=$VERSION -f Dockerfile.$ARCH .
     docker push $BUILDLABEL
 else
     echo "'$VERSION' is NOT an alpha build. Step will be skipped."
@@ -69,7 +69,7 @@ fi
 if [[ $VERSION == *"beta"* ]]; then
     BUILDLABEL=$REPOS_NAME:beta-$ARCH
     echo "Version is beta version '$VERSION'. Will build and push '$BUILDLABEL'."
-    docker build -t $BUILDLABEL --build-arg version=${VERSION} -f Dockerfile.$ARCH .
+    docker build -t $BUILDLABEL --build-arg version=$VERSION -f Dockerfile.$ARCH .
     docker push $BUILDLABEL
 else
     echo "'$VERSION' is NOT a beta build. Step will be skipped."
@@ -84,7 +84,7 @@ if [[ $VERSION != *"beta"* && $VERSION != *"alpha"* && $VERSION != *"develop"* ]
     # first build stable
     BUILDLABEL=$REPOS_NAME:stable-$ARCH
     echo "VERSION is '$VERSION'. Will build and push $BUILDLABEL"
-    docker build -t $BUILDLABEL --build-arg version=${VERSION} -f Dockerfile.$ARCH .
+    docker build -t $BUILDLABEL --build-arg version=$VERSION -f Dockerfile.$ARCH .
     docker push $BUILDLABEL
 
     # then tag as latest and push:
