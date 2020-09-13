@@ -4,7 +4,6 @@ services:
   fireflyiii:
     image: jc5x/firefly-iii:latest
     volumes:
-      - firefly_iii_export:/var/www/firefly-iii/storage/export
       - firefly_iii_upload:/var/www/firefly-iii/storage/upload
     env_file: .env
     ports:
@@ -20,7 +19,6 @@ services:
       - MYSQL_DATABASE=firefly
     volumes:
       - firefly_iii_db:/var/lib/mysql
-
 volumes:
    firefly_iii_export:
    firefly_iii_upload:

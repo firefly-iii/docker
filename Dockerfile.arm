@@ -5,28 +5,9 @@ FROM jc5x/firefly-iii-base-image:latest-arm
 ARG version
 ENV VERSION=$version
 
-ENV FIREFLY_PATH=/var/www/firefly-iii COMPOSER_ALLOW_SUPERUSER=1
-LABEL version="2.0" maintainer="thegrumpydictator@gmail.com"
-
-# set up some stuff under root
-COPY [ "scripts/wait-for-it.sh", "/wait-for-it.sh" ]
-COPY [ "scripts/entrypoint.sh", "/entrypoint.sh" ]
-COPY [ "scripts/prep-image.sh", "/prep-image.sh" ]
-COPY [ "scripts/finalize-image.sh", "/finalize-image.sh" ]
-
-# make all scripts executable and execute prep-image
-RUN chmod +x /*.sh && chmod +x /*.sh && bash /prep-image.sh
-
-WORKDIR /var/www/firefly-iii
-
 # install Firefly III and execute finalize-image.
-RUN curl -SL https://github.com/firefly-iii/firefly-iii/archive/$VERSION.tar.gz | tar xzC /var/www/firefly-iii --strip-components 1 && \
+RUN curl -SL https://github.com/firefly-iii/firefly-iii/archive/$VERSION.tar.gz | tar xzC $FIREFLY_PATH --strip-components 1 && \
     chmod -R 775 $FIREFLY_PATH/storage && \
-    composer install --prefer-dist --no-dev --no-scripts --no-suggest && bash /finalize-image.sh
+    composer install --prefer-dist --no-dev --no-scripts --no-suggest && /usr/local/bin/finalize-image.sh
 
-EXPOSE 8080
-VOLUME $FIREFLY_PATH/storage/export $FIREFLY_PATH/storage/upload
-
-USER www-data
-
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
