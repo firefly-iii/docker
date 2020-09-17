@@ -140,9 +140,9 @@ if [[ $VERSION != *"develop"* ]]; then
     VERSION_AMD64=$REPOS_NAME:release-$VERSION-amd64
 
     echo "Version release is '$VERSION_TARGET'."
-    echo "Will merge ARM   release '$VERSION_ARM32' into '$VERSION_TARGET'."
-    echo "Will merge ARM64 release '$VERSION_ARM64' into '$VERSION_TARGET'."
-    echo "Will merge AMD64 release '$VERSION_AMD64' into '$VERSION_TARGET'."
+    echo "Will merge arm     release '$VERSION_ARM32' into '$VERSION_TARGET'."
+    echo "Will merge ARM64   release '$VERSION_ARM64' into '$VERSION_TARGET'."
+    echo "Will merge AMD64   release '$VERSION_AMD64' into '$VERSION_TARGET'."
 
     docker manifest create $VERSION_TARGET $VERSION_ARM32 $VERSION_ARM64 $VERSION_AMD64
     docker manifest annotate $VERSION_TARGET $VERSION_ARM32 --arch arm   --os linux

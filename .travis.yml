@@ -23,7 +23,7 @@ jobs:
       script: ./travis.sh
     - dist: xenial
       arch: amd64
-      env: ARCH=arm32v7 VERSION=develop
+      env: ARCH=arm VERSION=develop
       stage: build
       script: ./travis.sh
     - dist: xenial
