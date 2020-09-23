@@ -5,6 +5,8 @@ FROM jc5x/firefly-iii-base-image:latest
 ARG version
 ENV VERSION=$version
 
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+
 # install Firefly III and execute finalize-image.
 RUN curl -SL https://github.com/firefly-iii/firefly-iii/archive/$VERSION.tar.gz | tar xzC $FIREFLY_III_PATH --strip-components 1 && \
     chmod -R 775 $FIREFLY_III_PATH/storage && \
