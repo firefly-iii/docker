@@ -3,8 +3,8 @@
 #
 # Step 1: set repos name.
 #
-#REPOS_NAME=jc5x/test-repository
-REPOS_NAME=jc5x/firefly-iii
+REPOS_NAME=jc5x/test-repository
+#REPOS_NAME=jc5x/firefly-iii
 
 #
 # Step 2: echo some info
