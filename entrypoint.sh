@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Now in entrypoint.sh for Firefly III"
-echo "Entrypoint script version is 1.0.9 (2020-09-23)"
+echo "Entrypoint script version is 1.0.10 (2020-09-23)"
 echo "Running as $(whoami)."
 
 # https://github.com/docker-library/wordpress/blob/master/docker-entrypoint.sh
@@ -94,9 +94,9 @@ fi
 
 
 echo "Dump auto load..."
-composer dump-autoload
+composer dump-autoload > /dev/null 2>&1
 echo "Discover packages..."
-php artisan package:discover
+php artisan package:discover > /dev/null 2>&1
 
 echo "Wait for the database."
 if [[ -z "$DB_PORT" ]]; then
@@ -183,8 +183,8 @@ else
 fi
 
 php artisan firefly-iii:set-latest-version --james-is-cool
-php artisan cache:clear
-php artisan config:cache
+php artisan cache:clear > /dev/null 2>&1
+php artisan config:cache > /dev/null 2>&1
 
 # set docker var.
 export IS_DOCKER=true
