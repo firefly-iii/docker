@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Now in entrypoint.sh for Firefly III"
-echo "Entrypoint script version is 1.0.7 (2020-09-23)"
+echo "Entrypoint script version is 1.0.8 (2020-09-23)"
 echo "Running as $(whoami)."
 
 # https://github.com/docker-library/wordpress/blob/master/docker-entrypoint.sh
