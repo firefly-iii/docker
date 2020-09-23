@@ -11,6 +11,8 @@ REPOS_NAME=jc5x/test-repository
 #
 echo "build-travis.sh v1.0: I am building '${VERSION}' for ${REPOS_NAME}."
 
+echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
 # new script start
 
 echo "Current directory is $DIR"
