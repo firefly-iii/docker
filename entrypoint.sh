@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Now in entrypoint.sh for Firefly III"
-echo "Entrypoint script version is 1.0.8 (2020-09-23)"
+echo "Entrypoint script version is 1.0.9 (2020-09-23)"
 echo "Running as $(whoami)."
 
 # https://github.com/docker-library/wordpress/blob/master/docker-entrypoint.sh
@@ -203,7 +203,7 @@ fi
 
 rm -f $FIREFLY_III_PATH/storage/framework/cache/data/*
 rm -f $FIREFLY_III_PATH/storage/logs/*.log
-chown -R $APACHE_RUN_USER:APACHE_RUN_GROUP $FIREFLY_III_PATH/storage
+chown -R $APACHE_RUN_USER:$APACHE_RUN_GROUP $FIREFLY_III_PATH/storage
 chmod -R 775 $FIREFLY_III_PATH/storage
 
 echo "Go!"
