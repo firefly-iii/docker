@@ -46,6 +46,6 @@ echo "Version is '$VERSION' so label will be '$LABEL'."
 
 # build firefly iii (TODO)
 #docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 --build-arg version=$VERSION -t $REPOS_NAME:$PUSHVERSION --push . -f Dockerfile --buildarg 
-docker buildx build  --build-arg version=$VERSION --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 -t $REPOS_NAME:$LABEL --push . -f Dockerfile
+docker buildx build  --build-arg version=$VERSION --platform linux/amd64,linux/arm64,linux/arm/v7 -t $REPOS_NAME:$LABEL --push . -f Dockerfile
 
 echo "Done!"
