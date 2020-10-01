@@ -6,6 +6,9 @@
 #REPOS_NAME=jc5x/test-repository
 REPOS_NAME=jc5x/firefly-iii
 
+# linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
+PLATFORMS="linux/amd64,linux/arm64,linux/arm/v7"
+
 #
 # Step 2: echo some info
 #
@@ -42,10 +45,14 @@ if [[ $VERSION != *"beta"* && $VERSION != *"alpha"* && $VERSION != *"develop"* ]
 	LABEL="latest"
 fi
 
-echo "Version is '$VERSION' so label will be '$LABEL'."
+echo "Version is '$VERSION' so label will be '$REPOS_NAME:$LABEL'."
 
-# build firefly iii (TODO)
-#docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 --build-arg version=$VERSION -t $REPOS_NAME:$PUSHVERSION --push . -f Dockerfile --buildarg 
-docker buildx build  --build-arg version=$VERSION --platform linux/amd64,linux/arm64,linux/arm/v7 -t $REPOS_NAME:$LABEL --push . -f Dockerfile
+# build firefly iii
+docker buildx build  --build-arg version=$VERSION --platform $PLATFORMS -t $REPOS_NAME:$LABEL --push . -f Dockerfile
+
+if [[ $VERSION != "develop" ]]; then
+	echo "Version is '$VERSION' so second label will be '$REPOS_NAME:$VERSION'."
+	docker buildx build  --build-arg version=$VERSION --platform $PLATFORMS -t $REPOS_NAME:$VERSION --push . -f Dockerfile
+fi
 
 echo "Done!"
