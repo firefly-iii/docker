@@ -51,8 +51,8 @@ echo "Version is '$VERSION' so label will be '$REPOS_NAME:$LABEL'."
 docker buildx build  --build-arg version=$VERSION --platform $PLATFORMS -t $REPOS_NAME:$LABEL --push . -f Dockerfile
 
 if [[ $VERSION != "develop" ]]; then
-	echo "Version is '$VERSION' so second label will be '$REPOS_NAME:$VERSION'."
-	docker buildx build  --build-arg version=$VERSION --platform $PLATFORMS -t $REPOS_NAME:$VERSION --push . -f Dockerfile
+	echo "Version is '$VERSION' so second label will be '$REPOS_NAME:version-$VERSION'."
+	docker buildx build  --build-arg version=$VERSION --platform $PLATFORMS -t $REPOS_NAME:version-$VERSION --push . -f Dockerfile
 fi
 
 echo "Done!"
