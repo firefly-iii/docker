@@ -25,5 +25,5 @@ before_install:
   - chmod a+x ~/.docker/cli-plugins/docker-buildx
 
 
-env:  VERSION=5.4.4
+env:  VERSION=develop
 script: ./build-travis.sh
