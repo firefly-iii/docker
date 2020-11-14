@@ -202,7 +202,7 @@ then
       APACHE_RUN_GROUP='www-data'
 fi
 
-rm -f $FIREFLY_III_PATH/storage/framework/cache/data/*
+rm -rf $FIREFLY_III_PATH/storage/framework/cache/data/*
 rm -f $FIREFLY_III_PATH/storage/logs/*.log
 chown -R $APACHE_RUN_USER:$APACHE_RUN_GROUP $FIREFLY_III_PATH/storage
 chmod -R 775 $FIREFLY_III_PATH/storage
