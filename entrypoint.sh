@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Now in entrypoint.sh for Firefly III"
-echo "Entrypoint script version is 1.0.10 (2020-09-23)"
+echo "Entrypoint script version is 1.0.11 (2020-12-15)"
 echo "Running as $(whoami)."
 echo "Current working dir is $(pwd)"
 
@@ -99,6 +99,8 @@ composer dump-autoload > /dev/null 2>&1
 echo "Discover packages..."
 php artisan package:discover > /dev/null 2>&1
 
+echo "Current working dir is '$(pwd)'"
+
 echo "Wait for the database."
 if [[ -z "$DB_PORT" ]]; then
   if [[ $DB_CONNECTION == "pgsql" ]]; then
@@ -111,6 +113,7 @@ if [[ -n "$DB_PORT" ]]; then
   /usr/local/bin/wait-for-it.sh "${DB_HOST}:${DB_PORT}" -t 60 -- echo "DB is up. Time to execute artisan commands."
 fi
 
+echo "Current working dir is '$(pwd)'"
 echo "Run various artisan commands..."
 
 if [[ $DKR_RUN_MIGRATION == "false" ]]; then
@@ -121,6 +124,8 @@ else
   php artisan migrate --seed --no-interaction --force
   php artisan firefly-iii:decrypt-all
 fi
+
+echo "Current working dir is '$(pwd)'"
 
 # there are 13 upgrade commands
 if [[ $DKR_RUN_UPGRADE == "false" ]]; then
