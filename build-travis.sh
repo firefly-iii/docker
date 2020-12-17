@@ -7,7 +7,10 @@
 REPOS_NAME=jc5x/firefly-iii
 
 # linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
-PLATFORMS=linux/amd64,linux/arm64,linux/arm/v7,linux/386,linux/arm/v6
+#PLATFORMS=linux/amd64,linux/arm64,linux/arm/v7,linux/386,linux/arm/v6
+PLATFORMS=linux/amd64,linux/arm64
+
+#,linux/arm/v7,linux/386,linux/arm/v6
 
 #
 # Step 2: echo some info
