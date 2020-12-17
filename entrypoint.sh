@@ -1,9 +1,9 @@
 #!/bin/bash
 
 echo "Now in entrypoint.sh for Firefly III"
-echo "Entrypoint script version is 1.0.11 (2020-12-15)"
-echo "Running as $(whoami)."
-echo "Current working dir is $(pwd)"
+echo "Entrypoint script version is 1.0.12 (2020-12-16)"
+echo "Running as '$(whoami)' in group '$(id -g -n)'."
+echo "Current working dir is '$(pwd)'"
 
 # https://github.com/docker-library/wordpress/blob/master/docker-entrypoint.sh
 # usage: file_env VAR [DEFAULT]

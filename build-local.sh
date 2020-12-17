@@ -3,11 +3,11 @@
 #
 # Step 1: set repos name.
 #
-#REPOS_NAME=jc5x/test-repository
+#REPOS_NAME=jc5x/test-repos-ff3
 REPOS_NAME=jc5x/firefly-iii
 
-# linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
-PLATFORMS="linux/amd64,linux/arm64,linux/arm/v7"
+# ,linux/arm64,linux/arm/v7,linux/arm/v6
+PLATFORMS=linux/amd64,linux/amd64
 
 #
 # Step 2: echo some info
