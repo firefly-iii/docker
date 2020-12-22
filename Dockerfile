@@ -1,6 +1,6 @@
 FROM jc5x/firefly-iii-base-image:latest
 
-USER nonroot
+# USER nonroot
 
 # See also: https://github.com/JC5/firefly-iii-base-image
 
