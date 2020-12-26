@@ -6,13 +6,14 @@
 #REPOS_NAME=jc5x/test-repos-ff3
 REPOS_NAME=jc5x/firefly-iii
 
-# ,linux/arm64,linux/arm/v7,linux/arm/v6
 PLATFORMS=linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6,linux/386
 
 #
 # Step 2: echo some info
 #
 echo "build-local.sh v1.1: I am building '${VERSION}' for ${REPOS_NAME}."	
+
+
 
 # new script start
 
