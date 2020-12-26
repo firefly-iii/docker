@@ -11,7 +11,7 @@ PLATFORMS=linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6,linux/386
 #
 # Step 2: echo some info
 #
-echo "build-local.sh v1.2: I am building '${VERSION}' for ${REPOS_NAME}."	
+echo "build-local.sh v1.3: I am building '${VERSION}' for ${REPOS_NAME}."	
 
 if [[ $VERSION == "" ]]; then
 	echo 'VERSION seems to be empty, exit.'
@@ -20,12 +20,7 @@ fi
 
 
 # new script start
-
-echo "Current directory is $DIR"
-
-docker version -f '{{.Server.Experimental}}'
-docker version
-
+docker buildx rm firefly_iii_builder
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes i
 docker buildx create --name firefly_iii_builder
 docker buildx inspect firefly_iii_builder --bootstrap
