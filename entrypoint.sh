@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -euo pipefail
-
 echo "Now in entrypoint.sh for Firefly III"
 echo "Entrypoint script version is 1.0.12 (2020-12-16)"
 echo "Running as '$(whoami)' in group '$(id -g -n)'."
