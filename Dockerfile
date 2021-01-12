@@ -8,6 +8,7 @@ ARG version
 ENV VERSION=$version
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY entrypoint-fpm.sh /usr/local/bin/entrypoint-fpm.sh
 
 # install Firefly III and execute finalize-image.
 RUN curl -SL https://github.com/firefly-iii/firefly-iii/archive/$VERSION.tar.gz | tar xzC $FIREFLY_III_PATH --strip-components 1 && \
