@@ -1,4 +1,4 @@
-FROM jc5x/firefly-iii-base-image:latest
+FROM fireflyiii/base:apache-8.0
 
 # USER nonroot
 
