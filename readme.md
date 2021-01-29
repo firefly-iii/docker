@@ -6,9 +6,30 @@
 [![Docker Stars](https://img.shields.io/docker/stars/jc5x/firefly-iii?style=flat-square)](https://hub.docker.com/r/jc5x/firefly-iii)
 [![Docker Pulls](https://img.shields.io/docker/pulls/jc5x/firefly-iii?style=flat-square)](https://hub.docker.com/r/jc5x/firefly-iii)
 
-This repository contains some of the helper scripts you may need when setting up Firefly III on Docker.
+This repository contains some of the helper scripts you may need when setting up Firefly III using Docker.
 
-The Docker image itself is built [on Azure](https://dev.azure.com/Firefly-III/MainImage/_wiki/wikis/MainImage.wiki/3/Home).
+## Docker image
+
+The Docker image is published [on Docker Hub](https://hub.docker.com/r/jc5x/firefly-iii). There are several tags available:
+
+* `jc5x/firefly-iii:latest`. The latest version. Will be stable.
+* `jc5x/firefly-iii:version-x.x.x`. A version tag, frozen to a specific version. Old version tags will be removed after about 6 months.
+
+For daredevils, the following tags are available:
+
+* `jc5x/firefly-iii:develop`. The latest development build. May not even boot.
+* `jc5x/firefly-iii:alpha`. The latest alpha release, if available.
+* `jc5x/firefly-iii:beta`. The latest beta release, if available.
+
+## docker-compose.yml
+
+This repository also contains the [docker-compose.yml](docker-compose.yml) file which you can use to instantly run a version of Firefly III with a MariaDB (aka MySQL) database.
+
+Some people use another image instead of the provided database. This is entirely up to you of course, but make sure you change the environment variables if you switch away from MySQL or MariaDB.
+
+## Dockerfile
+
+The Dockerfile no longe resides in this repository. The Dockerfile and the associated build script can be found [on Azure](https://dev.azure.com/Firefly-III/MainImage/_wiki/wikis/MainImage.wiki/3/Home). Please refer to the repository and the scripts over there.
 
 Here are some links for your reading pleasure.
 
