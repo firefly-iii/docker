@@ -12,7 +12,7 @@ This repository contains some of the helper scripts you may need when setting up
 
 The Firefly III Docker image is built [on Azure](https://dev.azure.com/Firefly-III/MainImage/_wiki/wikis/MainImage.wiki/3/Home) and published [on Docker Hub](https://hub.docker.com/r/jc5x/firefly-iii). There are several tags available:
 
-* `jc5x/firefly-iii:latest`
+* `jc5x/firefly-iii:latest`  
   The latest version. Will be stable.
 * `jc5x/firefly-iii:version-x.x.x`
   A version tag, frozen to a specific version. Old version tags will be removed after about 6 months.
