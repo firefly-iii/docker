@@ -14,16 +14,16 @@ The Firefly III Docker image is built [on Azure](https://dev.azure.com/Firefly-I
 
 * `jc5x/firefly-iii:latest`  
   The latest version. Will be stable.
-* `jc5x/firefly-iii:version-x.x.x`
+* `jc5x/firefly-iii:version-x.x.x`  
   A version tag, frozen to a specific version. Old version tags will be removed after about 6 months.
 
 For daredevils, the following tags are available:
 
-* `jc5x/firefly-iii:develop`
+* `jc5x/firefly-iii:develop`  
   The latest development build. May not even boot.
-* `jc5x/firefly-iii:alpha`
+* `jc5x/firefly-iii:alpha`  
   The latest alpha release, if available.
-* `jc5x/firefly-iii:beta`.
+* `jc5x/firefly-iii:beta`.  
   The latest beta release, if available.
 
 ## docker-compose.yml
