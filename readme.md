@@ -32,6 +32,10 @@ This repository also contains the [docker-compose.yml](docker-compose.yml) file 
 
 Some people use another database image instead of the provided database. This is entirely up to you of course, but make sure you change the environment variables if you switch away from MySQL or MariaDB.
 
+### Docker and system architectures
+
+The [database image](https://hub.docker.com/_/mariadb) provided by [docker-compose.yml](docker-compose.yml) may not provide the same system architectures as the [Firefly III image](https://hub.docker.com/r/jc5x/firefly-iii/tags?page=1&ordering=last_updated&name=latest) does. On system with a i386-architecture for example this means that Firefly III will run fine, but the provided database will not. Be aware that this may happen to you, although it's a rare occurence.
+
 ## Dockerfile
 
 The Dockerfile no longe resides in this repository. The Dockerfile and the associated build script can be found [on Azure](https://dev.azure.com/Firefly-III/MainImage/_wiki/wikis/MainImage.wiki/3/Home). Please refer to the repository and the scripts over there.

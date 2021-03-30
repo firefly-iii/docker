@@ -11,7 +11,7 @@ services:
     depends_on:
       - fireflyiiidb
   fireflyiiidb:
-    image: yobasystems/alpine-mariadb:latest
+    image: mariadb
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_USER=firefly
