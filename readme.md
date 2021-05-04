@@ -3,27 +3,27 @@
 [![Packagist](https://img.shields.io/packagist/v/grumpydictator/firefly-iii.svg?style=flat-square)](https://packagist.org/packages/grumpydictator/firefly-iii) 
 [![License](https://img.shields.io/github/license/firefly-iii/firefly-iii.svg?style=flat-square])](https://www.gnu.org/licenses/agpl-3.0.html) 
 [![Donate using GitHub](https://img.shields.io/badge/donate-GitHub-green?logo=github&style=flat-square)](https://github.com/sponsors/JC5)
-[![Docker Stars](https://img.shields.io/docker/stars/jc5x/firefly-iii?style=flat-square)](https://hub.docker.com/r/jc5x/firefly-iii)
-[![Docker Pulls](https://img.shields.io/docker/pulls/jc5x/firefly-iii?style=flat-square)](https://hub.docker.com/r/jc5x/firefly-iii)
+[![Docker Stars](https://img.shields.io/docker/stars/fireflyiii/core?style=flat-square)](https://hub.docker.com/r/fireflyiii/core)
+[![Docker Pulls](https://img.shields.io/docker/pulls/fireflyiii/core?style=flat-square)](https://hub.docker.com/r/fireflyiii/core)
 
 This repository contains some of the helper scripts you may need when setting up Firefly III using Docker.
 
 ## Docker image
 
-The Firefly III Docker image is built [on Azure](https://dev.azure.com/Firefly-III/MainImage/_wiki/wikis/MainImage.wiki/3/Home) and published [on Docker Hub](https://hub.docker.com/r/jc5x/firefly-iii). There are several tags available:
+The Firefly III Docker image is built [on Azure](https://dev.azure.com/Firefly-III/MainImage/_wiki/wikis/MainImage.wiki/3/Home) and published [on Docker Hub](https://hub.docker.com/r/fireflyiii/core). There are several tags available:
 
-* `jc5x/firefly-iii:latest`  
+* `fireflyiii/core:latest`  
   The latest version. Will be stable.
-* `jc5x/firefly-iii:version-x.x.x`  
+* `fireflyiii/core:version-x.x.x`  
   A version tag, frozen to a specific version. Old version tags will be removed after about 6 months.
 
 For daredevils, the following tags are available:
 
-* `jc5x/firefly-iii:develop`  
+* `fireflyiii/core:develop`  
   The latest development build. May not even boot.
-* `jc5x/firefly-iii:alpha`  
+* `fireflyiii/core:alpha`  
   The latest alpha release, if available.
-* `jc5x/firefly-iii:beta`.  
+* `fireflyiii/core:beta`.  
   The latest beta release, if available.
 
 ## docker-compose.yml
@@ -34,7 +34,7 @@ Some people use another database image instead of the provided database. This is
 
 ### Docker and system architectures
 
-The [database image](https://hub.docker.com/_/mariadb) provided by [docker-compose.yml](docker-compose.yml) may not provide the same system architectures as the [Firefly III image](https://hub.docker.com/r/jc5x/firefly-iii/tags?page=1&ordering=last_updated&name=latest) does. On system with a i386-architecture for example this means that Firefly III will run fine, but the provided database will not. Be aware that this may happen to you, although it's a rare occurence.
+The [database image](https://hub.docker.com/_/mariadb) provided by [docker-compose.yml](docker-compose.yml) may not provide the same system architectures as the [Firefly III image](https://hub.docker.com/r/fireflyiii/core/tags?page=1&ordering=last_updated&name=latest) does. On system with a i386-architecture for example this means that Firefly III will run fine, but the provided database will not. Be aware that this may happen to you, although it's a rare occurence.
 
 ## Dockerfile
 
@@ -44,7 +44,7 @@ Here are some links for your reading pleasure.
 
 - [Firefly III on GitHub](https://github.com/firefly-iii/firefly-iii)
 - [Firefly III Documentation](https://docs.firefly-iii.org/)
-- [Firefly III on Docker Hub](https://hub.docker.com/r/jc5x/firefly-iii)
+- [Firefly III on Docker Hub](https://hub.docker.com/r/fireflyiii/core)
 - [Firefly III Docker on Azure](https://dev.azure.com/Firefly-III/MainImage)
 
 Please open any issues you have [in the main repository](https://github.com/firefly-iii/firefly-iii).
