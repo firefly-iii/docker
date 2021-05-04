@@ -1,7 +1,7 @@
 version: '3.3'
 
 services:
-  fireflyiii:
+  app:
     image: fireflyiii/core:latest
     volumes:
       - firefly_iii_upload:/var/www/html/storage/upload
@@ -9,8 +9,8 @@ services:
     ports:
       - 80:8080
     depends_on:
-      - fireflyiiidb
-  fireflyiiidb:
+      - db
+  db:
     image: mariadb
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
