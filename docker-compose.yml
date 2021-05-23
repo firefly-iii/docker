@@ -14,9 +14,9 @@ services:
     image: mariadb
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
-      - MYSQL_USER=firefly
-      - MYSQL_PASSWORD=secret_firefly_password
-      - MYSQL_DATABASE=firefly
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
     volumes:
       - firefly_iii_db:/var/lib/mysql
 volumes:
