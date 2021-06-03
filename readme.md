@@ -38,7 +38,7 @@ The [database image](https://hub.docker.com/_/mariadb) provided by [docker-compo
 
 ## Dockerfile
 
-The Dockerfile no longe resides in this repository. The Dockerfile and the associated build script can be found [on Azure](https://dev.azure.com/Firefly-III/MainImage/_wiki/wikis/MainImage.wiki/3/Home). Please refer to the repository and the scripts over there.
+The Dockerfile no longer resides in this repository. The Dockerfile and the associated build script can be found [on Azure](https://dev.azure.com/Firefly-III/MainImage/_wiki/wikis/MainImage.wiki/3/Home). Please refer to the repository and the scripts over there.
 
 Here are some links for your reading pleasure.
 
