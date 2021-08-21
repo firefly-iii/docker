@@ -3,7 +3,7 @@ version: '3.3'
 services:
   app:
     image: fireflyiii/core:latest
-    restart: alwaysb
+    restart: always
     volumes:
       - firefly_iii_upload:/var/www/html/storage/upload
     env_file: .env
@@ -14,7 +14,7 @@ services:
   db:
     image: mariad    
     hostname: fireflyiiidb
-    restart: alwaysb
+    restart: always
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_USER=firefly
