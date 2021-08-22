@@ -3,6 +3,7 @@ version: '3.3'
 services:
   app:
     image: fireflyiii/core:latest
+    restart: always
     volumes:
       - firefly_iii_upload:/var/www/html/storage/upload
     env_file: .env
@@ -11,7 +12,9 @@ services:
     depends_on:
       - db
   db:
-    image: mariadb
+    image: mariadb    
+    hostname: fireflyiiidb
+    restart: always
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_USER=firefly
