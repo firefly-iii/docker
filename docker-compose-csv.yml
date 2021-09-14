@@ -1,0 +1,51 @@
+version: '3.3'
+
+services:
+  app:
+    image: fireflyiii/core:latest
+    hostname: app
+    networks:
+      - firefly
+    restart: always
+    volumes:
+      - firefly_iii_upload:/var/www/html/storage/upload
+    env_file: .env
+    ports:
+      - 80:8080
+    depends_on:
+      - db
+  db:
+    image: mariadb
+    hostname: fireflyiiidb
+    networks:
+      - firefly
+    restart: always
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_USER=firefly
+      - MYSQL_PASSWORD=secret_firefly_password
+      - MYSQL_DATABASE=firefly
+    volumes:
+      - firefly_iii_db:/var/lib/mysql
+
+  csv_importer:
+    image: fireflyiii/csv-importer:latest
+    hostname: csv
+    networks:
+      - firefly
+    restart: always
+    ports:
+      - 81:8080
+    depends_on:
+      - app
+    environment:
+      - VANITY_URL=http://localhost:81
+      - FIREFLY_III_URL=http://app:8080
+
+volumes:
+   firefly_iii_upload:
+   firefly_iii_db:
+
+networks:
+  firefly:
+    driver: bridge
