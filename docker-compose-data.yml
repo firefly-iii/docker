@@ -28,9 +28,9 @@ services:
     volumes:
       - firefly_iii_db:/var/lib/mysql
 
-  csv_importer:
-    image: fireflyiii/csv-importer:latest
-    hostname: csv
+  data_importer:
+    image: fireflyiii/data-importer:latest
+    hostname: data
     networks:
       - firefly
     restart: always
@@ -39,7 +39,7 @@ services:
     depends_on:
       - app
     environment:
-      - VANITY_URL=http://localhost:81
+      - VANITY_URL=http://localhost
       - FIREFLY_III_URL=http://app:8080
 
 volumes:
