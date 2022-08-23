@@ -23,14 +23,18 @@
 
 This repository contains some of the helper scripts you may need when setting up Firefly III using Docker.
 
-## Docker image
+## Docker image for Firefly III
 
 The Firefly III Docker image is built [on Azure](https://dev.azure.com/Firefly-III/MainImage/_wiki/wikis/MainImage.wiki/3/Home) and published [on Docker Hub](https://hub.docker.com/r/fireflyiii/core). There are several tags available:
 
 * `fireflyiii/core:latest`  
   The latest version. Will be stable.
 * `fireflyiii/core:version-x.x.x`  
-  A version tag, frozen to a specific version. Old version tags will be removed after about 6 months.
+  A version tag, frozen to a specific patch version. Old version tags will be removed after about 6 months.
+* `fireflyiii/core:version-x.x`  
+  A version tag, frozen to a specific minor version. Old version tags will be removed after about 6 months.
+* `fireflyiii/core:version-x`  
+  A version tag, frozen to a specific major version. Old version tags will be removed after about 6 months.
 
 For daredevils, the following tags are available:
 
@@ -40,6 +44,15 @@ For daredevils, the following tags are available:
   The latest alpha release, if available.
 * `fireflyiii/core:beta`.  
   The latest beta release, if available.
+
+## Docker image for the Firefly III Data Importer
+
+The Firefly III Data Importer Docker image is built [on Azure](https://dev.azure.com/Firefly-III/ImportToolImage/_wiki/wikis/MainImage.wiki/3/Home) and published [on Docker Hub](https://hub.docker.com/r/fireflyiii/data-importer). There are several tags available:
+
+* `fireflyiii/data-importer:latest`  
+  The latest version. Will be stable.
+* `fireflyiii/core:version-x.x.x`  
+  A version tag, frozen to a specific patch version. Old version tags will be removed after about 6 months.
 
 ## docker-compose.yml
 
