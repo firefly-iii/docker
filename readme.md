@@ -47,7 +47,7 @@ For daredevils, the following tags are available:
 
 ## Docker image for the Firefly III Data Importer
 
-The Firefly III Data Importer Docker image is built [on Azure](https://dev.azure.com/Firefly-III/ImportToolImage/_wiki/wikis/MainImage.wiki/3/Home) and published [on Docker Hub](https://hub.docker.com/r/fireflyiii/data-importer). There are several tags available:
+The Firefly III Data Importer Docker image is built [on Azure](https://dev.azure.com/Firefly-III/ImportToolImage/_wiki/wikis/ImportToolImage.wiki/4/Home) and published [on Docker Hub](https://hub.docker.com/r/fireflyiii/data-importer). There are several tags available:
 
 * `fireflyiii/data-importer:latest`  
   The latest version. Will be stable.
