@@ -28,11 +28,7 @@ services:
     networks:
       - firefly
     restart: always
-    environment:
-      - MYSQL_RANDOM_ROOT_PASSWORD=yes
-      - MYSQL_USER=firefly
-      - MYSQL_PASSWORD=secret_firefly_password
-      - MYSQL_DATABASE=firefly
+    env_file: .db.env
     volumes:
       - firefly_iii_db:/var/lib/mysql
 
@@ -46,9 +42,7 @@ services:
       - '81:8080'
     depends_on:
       - app
-    environment:
-      - VANITY_URL=http://localhost
-      - FIREFLY_III_URL=http://app:8080
+    env_file: .fidi.env
 
 volumes:
    firefly_iii_upload:
