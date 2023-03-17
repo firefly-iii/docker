@@ -32,9 +32,9 @@ services:
     volumes:
       - firefly_iii_db:/var/lib/mysql
 
-  data_importer:
+  importer:
     image: fireflyiii/data-importer:latest
-    hostname: data
+    hostname: importer
     networks:
       - firefly
     restart: always
@@ -42,7 +42,7 @@ services:
       - '81:8080'
     depends_on:
       - app
-    env_file: .fidi.env
+    env_file: .importer.env
 
 volumes:
    firefly_iii_upload:
