@@ -7,6 +7,8 @@ services:
     volumes:
       - firefly_iii_upload:/var/www/html/storage/upload
     env_file: .env
+    networks:
+      - firefly_iii
     ports:
       - 80:8080
     depends_on:
@@ -16,8 +18,24 @@ services:
     hostname: fireflyiiidb
     restart: always
     env_file: .db.env
+    networks:
+      - firefly_iii
     volumes:
       - firefly_iii_db:/var/lib/mysql
+  cron:
+    #
+    # To make this work, set STATIC_CRON_TOKEN in your .env file or as an environment variable and replace REPLACEME below
+    # The STATIC_CRON_TOKEN must be *exactly* 32 characters long
+    #
+    image: alpine
+    command: sh -c "echo \"0 3 * * * wget -qO- http://app:8080/api/v1/cron/REPLACEME\" | crontab - && crond -f -L /dev/stdout"
+    networks:
+      - firefly_iii
+
 volumes:
    firefly_iii_upload:
    firefly_iii_db:
+
+networks:
+  firefly_iii:
+    driver: bridge

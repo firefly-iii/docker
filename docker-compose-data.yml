@@ -13,7 +13,7 @@ services:
     image: fireflyiii/core:latest
     hostname: app
     networks:
-      - firefly
+      - firefly_iii
     restart: always
     volumes:
       - firefly_iii_upload:/var/www/html/storage/upload
@@ -26,7 +26,7 @@ services:
     image: mariadb
     hostname: fireflyiiidb
     networks:
-      - firefly
+      - firefly_iii
     restart: always
     env_file: .db.env
     volumes:
@@ -36,7 +36,7 @@ services:
     image: fireflyiii/data-importer:latest
     hostname: importer
     networks:
-      - firefly
+      - firefly_iii
     restart: always
     ports:
       - '81:8080'
@@ -44,10 +44,19 @@ services:
       - app
     env_file: .importer.env
 
+  cron:
+    #
+    # To make this work, set STATIC_CRON_TOKEN in your .env file or as an environment variable and replace REPLACEME below
+    # The STATIC_CRON_TOKEN must be *exactly* 32 characters long
+    #
+    image: alpine
+    command: sh -c "echo \"0 3 * * * wget -qO- http://app:8080/api/v1/cron/REPLACEME\" | crontab - && crond -f -L /dev/stdout"
+    networks:
+      - firefly_iii
 volumes:
    firefly_iii_upload:
    firefly_iii_db:
 
 networks:
-  firefly:
+  firefly_iii:
     driver: bridge
