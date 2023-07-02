@@ -52,7 +52,6 @@ services:
     #
     # To make this work, set STATIC_CRON_TOKEN in your .env file or as an environment variable and replace REPLACEME below
     # The STATIC_CRON_TOKEN must be *exactly* 32 characters long
-    # Here is inspiration: https://www.random.org/strings/?num=1&len=32&digits=on&upperalpha=on&loweralpha=on&unique=on&format=html&rnd=new
     #
     image: alpine
     container_name: firefly_iii_cron
