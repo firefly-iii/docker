@@ -41,7 +41,6 @@ services:
     container_name: firefly_iii_importer
     networks:
       - firefly_iii
-    restart: always
     ports:
       - '81:8080'
     depends_on:
