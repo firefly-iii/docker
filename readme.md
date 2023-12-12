@@ -58,7 +58,7 @@ The Firefly III Data Importer Docker image is built [on Azure](https://dev.azure
 
 This repository also contains the [docker-compose.yml](docker-compose.yml) file which you can use to instantly run a version of Firefly III with a MariaDB (aka MySQL) database.
 
-The alternative, [docker-compose-importer.yml](docker-compose-importer.yml) also contains the [Data Importer](https://docs.firefly-iii.org/data-importer/).
+The alternative, [docker-compose-importer.yml](docker-compose-importer.yml) also contains the [Data Importer](https://docs.firefly-iii.org/how-to/data-importer/installation/docker/).
 
 Some people use another database image instead of the provided database. This is entirely up to you of course, but make sure you change the environment variables if you switch away from MySQL or MariaDB.
 
