@@ -16,7 +16,7 @@ services:
     depends_on:
       - db
   db:
-    image: mariadb
+    image: mariadb:lts
     hostname: db
     container_name: firefly_iii_db
     restart: always
