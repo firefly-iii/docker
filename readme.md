@@ -25,7 +25,7 @@ This repository contains some of the helper scripts you may need when setting up
 
 ## Docker image for Firefly III
 
-The Firefly III Docker image is built [on Azure](https://dev.azure.com/Firefly-III/MainImage/_wiki/wikis/MainImage.wiki/3/Home) and published [on Docker Hub](https://hub.docker.com/r/fireflyiii/core). There are several tags available:
+The Firefly III Docker image is built [on Azure](https://dev.azure.com/Firefly-III/MainImage/_wiki/wikis/MainImage.wiki/3/Home) and published [on Docker Hub](https://hub.docker.com/r/fireflyiii/core). You can find the [Dockerfile](https://dev.azure.com/Firefly-III/_git/MainImage?path=/Dockerfile) on Azure. There are several tags available:
 
 * `fireflyiii/core:latest`  
   The latest version. Will be stable.
@@ -47,7 +47,7 @@ For daredevils, the following tags are available:
 
 ## Docker image for the Firefly III Data Importer
 
-The Firefly III Data Importer Docker image is built [on Azure](https://dev.azure.com/Firefly-III/ImportToolImage/_wiki/wikis/ImportToolImage.wiki/4/Home) and published [on Docker Hub](https://hub.docker.com/r/fireflyiii/data-importer). There are several tags available:
+The Firefly III Data Importer Docker image is built [on Azure](https://dev.azure.com/Firefly-III/ImportToolImage/_wiki/wikis/ImportToolImage.wiki/4/Home) and published [on Docker Hub](https://hub.docker.com/r/fireflyiii/data-importer). You can find the [Dockerfile](https://dev.azure.com/Firefly-III/_git/ImportToolImage?path=/Dockerfile) on Azure. There are several tags available:
 
 * `fireflyiii/data-importer:latest`  
   The latest version. Will be stable.
@@ -64,11 +64,15 @@ Some people use another database image instead of the provided database. This is
 
 ### Docker and system architectures
 
-The [database image](https://hub.docker.com/_/mariadb) provided by [docker-compose.yml](docker-compose.yml) may not provide the same system architectures as the [Firefly III image](https://hub.docker.com/r/fireflyiii/core/tags?page=1&ordering=last_updated&name=latest) does. On system with a i386-architecture for example this means that Firefly III will run fine, but the provided database will not. Be aware that this may happen to you, although it's a rare occurence.
+The [database image](https://hub.docker.com/_/mariadb) provided by [docker-compose.yml](docker-compose.yml) may not provide the same system architectures as the [Firefly III image](https://hub.docker.com/r/fireflyiii/core/tags?page=1&ordering=last_updated&name=latest) does. On system with a i386-architecture for example this means that Firefly III will run fine, but the provided database will not. Be aware that this may happen to you, although it's a rare occurrence.
 
 ## Dockerfile
 
-The Dockerfile no longer resides in this repository. The Dockerfile and the associated build script can be found [on Azure](https://dev.azure.com/Firefly-III/MainImage/_wiki/wikis/MainImage.wiki/3/Home). Please refer to the repository and the scripts over there.
+The Dockerfile no longer resides in this repository. The Dockerfile and the associated build script can be found on Azure:
+
+- [Firefly III Dockerfile](https://dev.azure.com/Firefly-III/_git/MainImage?path=/Dockerfile)
+- [Data Importer Dockerfile](https://dev.azure.com/Firefly-III/_git/ImportToolImage?path=/Dockerfile)
+- [Base image Dockerfile](https://dev.azure.com/Firefly-III/_git/BaseImage?path=/apache-8.3/Dockerfile)
 
 Here are some links for your reading pleasure.
 
