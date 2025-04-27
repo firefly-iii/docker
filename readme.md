@@ -25,7 +25,7 @@ This repository contains some of the helper scripts you may need when setting up
 
 ## Docker image for Firefly III
 
-The Firefly III Docker image is built [on Azure](https://dev.azure.com/Firefly-III/MainImage/_wiki/wikis/MainImage.wiki/3/Home) and published [on Docker Hub](https://hub.docker.com/r/fireflyiii/core). You can find the [Dockerfile](https://dev.azure.com/Firefly-III/_git/MainImage?path=/Dockerfile) on Azure. There are several tags available:
+The Firefly III Docker image is built [on Azure](https://dev.azure.com/Firefly-III/MainImage/_wiki/wikis/MainImage.wiki/3/Home) and published [on Docker Hub](https://hub.docker.com/r/fireflyiii/core). You can find the [Dockerfile](https://dev.azure.com/Firefly-III/_git/MainImage?path=/Dockerfile) on Azure as well. There are several tags available on Docker Hub:
 
 * `fireflyiii/core:latest`  
   The latest version. Will be stable.
@@ -51,8 +51,13 @@ The Firefly III Data Importer Docker image is built [on Azure](https://dev.azure
 
 * `fireflyiii/data-importer:latest`  
   The latest version. Will be stable.
-* `fireflyiii/core:version-x.x.x`  
+* `fireflyiii/data-importer:version-x.x.x`  
   A version tag, frozen to a specific patch version. Old version tags will be removed after about 6 months.
+* `fireflyiii/data-importer:version-x.x`  
+  A version tag, frozen to a specific minor version. Old version tags will be removed after about 6 months.
+* `fireflyiii/data-importer:version-x`  
+  A version tag, frozen to a specific major version. Old version tags will be removed after about 6 months.
+
 
 ## docker-compose.yml and docker-compose-importer.yml
 
@@ -72,7 +77,7 @@ The Dockerfile no longer resides in this repository. The Dockerfile and the asso
 
 - [Firefly III Dockerfile](https://dev.azure.com/Firefly-III/_git/MainImage?path=/Dockerfile)
 - [Data Importer Dockerfile](https://dev.azure.com/Firefly-III/_git/ImportToolImage?path=/Dockerfile)
-- [Base image Dockerfile](https://dev.azure.com/Firefly-III/_git/BaseImage?path=/apache-8.3/Dockerfile)
+- [Base image repository](https://github.com/firefly-iii/base-image/)
 
 Here are some links for your reading pleasure.
 
@@ -82,7 +87,6 @@ Here are some links for your reading pleasure.
 - [Firefly III Docker on Azure](https://dev.azure.com/Firefly-III/MainImage)
 
 Please open any issues you have [in the main repository](https://github.com/firefly-iii/firefly-iii).
-
 
 <!-- HELP TEXT -->
 
