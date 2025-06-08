@@ -5,7 +5,7 @@ services:
     container_name: firefly_iii_core
     restart: always
     volumes:
-      - firefly_iii_upload:/var/www/html/storage/upload
+      - firefly_iii_storage:/var/www/html/storage
     env_file: .env
     networks:
       - firefly_iii
@@ -42,7 +42,7 @@ services:
       - firefly_iii
 
 volumes:
-   firefly_iii_upload:
+   firefly_iii_storage:
    firefly_iii_db:
 
 networks:
