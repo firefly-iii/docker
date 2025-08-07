@@ -20,6 +20,7 @@ class TestFireflyCreateAccount(unittest.TestCase):
         return len(data.get("data", []))
 
 
+
     def test_create_account_success(self):
         initial_count = self.get_account_count()
 
