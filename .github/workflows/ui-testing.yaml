@@ -79,6 +79,6 @@ jobs:
         env:
           CI: true
           HEADLESS: true
-          FIREFLY_URL: 52.17.125.160:8080
+          FIREFLY_URL: http://52.17.125.160:8080
         run: |
           pytest tests/ -v
