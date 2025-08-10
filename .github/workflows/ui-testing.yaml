@@ -31,7 +31,7 @@ jobs:
     - name: Install Chrome & ChromeDriver
       run: |
         sudo apt update
-        sudo apt install -y wget unzip xvfb libxi6 libgbm-dev libnss3 libxshmfence1 libasound2
+        sudo apt install -y wget unzip xvfb libxi6 libgbm-dev libnss3 libxshmfence1 libasound2t64
 
         # Download and install latest stable Google Chrome
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
