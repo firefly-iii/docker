@@ -30,30 +30,39 @@ jobs:
         
     - name: Install Chrome & ChromeDriver
       run: |
-          sudo apt update
-          sudo apt install -y wget unzip xvfb libxi6 libgbm-dev libnss3 libxshmfence1 libasound2t64
+        sudo apt update
+        sudo apt install -y wget unzip xvfb libxi6 libgbm-dev libnss3 libxshmfence1 libasound2
 
-          # Download and install latest stable Google Chrome
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt install -y ./google-chrome-stable_current_amd64.deb
+        # Download and install latest stable Google Chrome
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo apt install -y ./google-chrome-stable_current_amd64.deb
 
-          # Get Chrome version number like "139.0.7258.66"
-          CHROME_VERSION=$(google-chrome --version | grep -oP "\d+\.\d+\.\d+\.\d+")
+        # Get Chrome full version, e.g. "139.0.7258.66"
+        CHROME_FULL_VERSION=$(google-chrome --version | grep -oP "\d+\.\d+\.\d+\.\d+")
 
-          # Download matching ChromeDriver from official "chrome-for-testing" bucket (preferred)
-          wget -q -O chromedriver.zip "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${CHROME_VERSION}/linux64/chromedriver-linux64.zip"
+        # Extract only major version, e.g. "139"
+        CHROME_MAJOR_VERSION=$(echo $CHROME_FULL_VERSION | cut -d '.' -f 1)
 
-          # Unzip ChromeDriver, then move binary correctly (handles folder name)
-          unzip chromedriver.zip
-          mv */chromedriver /usr/local/bin/chromedriver
-          sudo chmod +x /usr/local/bin/chromedriver
+        echo "Chrome full version: $CHROME_FULL_VERSION"
+        echo "Chrome major version: $CHROME_MAJOR_VERSION"
 
-          # Clean up
-          rm -rf chromedriver.zip google-chrome-stable_current_amd64.deb
+        # Download matching ChromeDriver for major version (if available)
+        # Note: If chromedriver not released yet for that major, this will fail
+        wget -q -O chromedriver.zip "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${CHROME_MAJOR_VERSION}.0.0.0/linux64/chromedriver-linux64.zip" || {
+          echo "Failed to download chromedriver for version $CHROME_MAJOR_VERSION, trying fallback"
+          # fallback to older known working version, e.g. 117:
+          wget -q -O chromedriver.zip "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/117.0.5938.92/linux64/chromedriver-linux64.zip"
+        }
 
-          # Create temporary directories for Chrome user data
-          mkdir -p /tmp/chrome-user-data
-          chmod 755 /tmp/chrome-user-data
+        unzip chromedriver.zip
+        mv */chromedriver /usr/local/bin/chromedriver
+        sudo chmod +x /usr/local/bin/chromedriver
+
+        rm -rf chromedriver.zip google-chrome-stable_current_amd64.deb
+
+        mkdir -p /tmp/chrome-user-data
+        chmod 755 /tmp/chrome-user-data
+
 
     - name: Cleanup existing Chrome processes
       run: |
