@@ -28,17 +28,19 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Install Chrome
+    - name: Install Chrome 117 (stable)
       run: |
-        sudo apt-get update
-        sudo apt-get install -y google-chrome-stable wget unzip
-        
-    - name: Install ChromeDriver for Chrome 138
+        wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_117.0.5938.92-1_amd64.deb
+        sudo dpkg -i google-chrome-stable_117.0.5938.92-1_amd64.deb || sudo apt-get -f install -y
+        google-chrome --version
+
+    - name: Install matching ChromeDriver for Chrome 117
       run: |
-        wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/138.0.7204.183/linux64/chromedriver-linux64.zip
+        wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/117.0.5938.92/linux64/chromedriver-linux64.zip
         unzip chromedriver-linux64.zip
-        sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
+        sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
         sudo chmod +x /usr/local/bin/chromedriver
+        rm -rf chromedriver-linux64 chromedriver-linux64.zip
 
 
     - name: Run Selenium tests
