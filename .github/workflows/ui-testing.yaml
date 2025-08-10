@@ -31,7 +31,9 @@ jobs:
     - name: Install Chrome and ChromeDriver
       run: |
         sudo apt-get update
-        sudo apt-get install -y google-chrome-stable
+        sudo apt-get install -y wget unzip
+        wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_117.0.5938.92-1_amd64.deb
+        sudo dpkg -i google-chrome-stable_117.0.5938.92-1_amd64.deb || sudo apt-get -f install -y
         
     - name: Run Selenium tests
       env:
