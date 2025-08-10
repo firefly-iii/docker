@@ -31,26 +31,26 @@ jobs:
     - name: Install Chrome & ChromeDriver
       run: |
         sudo apt update
-        sudo apt install -y wget unzip xvfb libxi6 libgbm-dev libnss3 libxshmfence1 libasound2t64
+        sudo apt install -y wget unzip xvfb libxi6 libgbm-dev libnss3 libxshmfence1 libasound2t64 curl jq
 
-        # Download and install latest stable Google Chrome
+        # Install latest stable Chrome
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
         sudo apt install -y ./google-chrome-stable_current_amd64.deb
 
-        # Get Chrome full version (e.g. 138.0.7204.183)
+        # Get full Chrome version
         CHROME_FULL_VERSION=$(google-chrome --version | grep -oP "\d+\.\d+\.\d+\.\d+")
-        echo "Chrome version detected: $CHROME_FULL_VERSION"
+        echo "Detected Chrome version: $CHROME_FULL_VERSION"
 
-        # Download matching ChromeDriver from official Chrome-for-Testing storage
+        # Check if exact ChromeDriver version exists
         DRIVER_URL="https://storage.googleapis.com/chrome-for-testing-public/${CHROME_FULL_VERSION}/linux64/chromedriver-linux64.zip"
-
         if wget -q --spider "$DRIVER_URL"; then
-          echo "Downloading ChromeDriver for version $CHROME_FULL_VERSION"
+          echo "Downloading exact ChromeDriver for version $CHROME_FULL_VERSION"
           wget -q -O chromedriver.zip "$DRIVER_URL"
         else
-          echo "ChromeDriver not found for $CHROME_FULL_VERSION, falling back to latest stable"
-          LATEST_DRIVER_URL=$(curl -s https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions.json | grep -oP '"linux64":\s*"\K[^"]+' | head -1)
-          wget -q -O chromedriver.zip "$LATEST_DRIVER_URL"
+          echo "Exact ChromeDriver not found, falling back to last known good version"
+          LATEST_DRIVER_VERSION=$(curl -s https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions.json | jq -r '.channels.Stable.version')
+          echo "Using ChromeDriver version: $LATEST_DRIVER_VERSION"
+          wget -q -O chromedriver.zip "https://storage.googleapis.com/chrome-for-testing-public/${LATEST_DRIVER_VERSION}/linux64/chromedriver-linux64.zip"
         fi
 
         unzip chromedriver.zip
