@@ -35,7 +35,8 @@ jobs:
         
     - name: Run Selenium tests
       env:
+        CI: true
         HEADLESS: true
-        OLLAMA_URL: 34.240.131.103:8080
+        FIREFLY_URL: 34.240.131.103:8080
       run: |
         pytest tests/ -v
