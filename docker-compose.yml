@@ -40,6 +40,8 @@ services:
       crond -f -L /dev/stdout"
     networks:
       - firefly_iii
+    depends_on:
+      - app
 
 volumes:
    firefly_iii_upload:
