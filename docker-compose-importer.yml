@@ -54,6 +54,7 @@ services:
     image: alpine
     container_name: firefly_iii_cron
     restart: always
+    env_file: .env
     command: sh -c "
       apk add tzdata && \
       ln -s /usr/share/zoneinfo/$$TZ /etc/localtime && \
