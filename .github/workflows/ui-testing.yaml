@@ -1,0 +1,84 @@
+name: Selenium UI Tests
+
+on:
+  pull_request:
+    branches:
+      - main    
+  
+jobs:
+  selenium-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1  
+          repository: tmeraslan/firefly-UI
+          token: ${{ secrets.UI_TESTING_GITHUB_TOKEN }}
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+        
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+        
+      - name: Install Chrome & ChromeDriver
+        run: |
+          sudo apt update
+          sudo apt install -y wget unzip xvfb libxi6 libgbm-dev libnss3 libxshmfence1 libasound2t64 curl jq
+
+          # Install latest Chrome
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install -y ./google-chrome-stable_current_amd64.deb
+
+          # Get Chrome full & major version
+          CHROME_FULL_VERSION=$(google-chrome --version | grep -oP "\d+\.\d+\.\d+\.\d+")
+          CHROME_MAJOR_VERSION=$(echo $CHROME_FULL_VERSION | cut -d '.' -f 1)
+          echo "Detected Chrome version: $CHROME_FULL_VERSION (major: $CHROME_MAJOR_VERSION)"
+
+          # Try exact version
+          DRIVER_URL="https://storage.googleapis.com/chrome-for-testing-public/${CHROME_FULL_VERSION}/linux64/chromedriver-linux64.zip"
+          if wget -q --spider "$DRIVER_URL"; then
+            echo "Downloading ChromeDriver for exact version $CHROME_FULL_VERSION"
+            wget -q -O chromedriver.zip "$DRIVER_URL"
+          else
+            # Try last known good stable
+            LATEST_DRIVER_VERSION=$(curl -s https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions.json | jq -r '.channels.Stable.version')
+            DRIVER_URL="https://storage.googleapis.com/chrome-for-testing-public/${LATEST_DRIVER_VERSION}/linux64/chromedriver-linux64.zip"
+            if wget -q --spider "$DRIVER_URL"; then
+              echo "Using last known good stable: $LATEST_DRIVER_VERSION"
+              wget -q -O chromedriver.zip "$DRIVER_URL"
+            else
+              # Try major version latest
+              echo "Falling back to major version $CHROME_MAJOR_VERSION latest"
+              DRIVER_URL="https://storage.googleapis.com/chrome-for-testing-public/${CHROME_MAJOR_VERSION}.0.0.0/linux64/chromedriver-linux64.zip"
+              wget -q -O chromedriver.zip "$DRIVER_URL"
+            fi
+          fi
+
+          unzip chromedriver.zip
+          sudo mv */chromedriver /usr/local/bin/chromedriver
+          sudo chmod +x /usr/local/bin/chromedriver
+
+          rm -rf chromedriver.zip google-chrome-stable_current_amd64.deb
+          mkdir -p /tmp/chrome-user-data
+          chmod 755 /tmp/chrome-user-data
+
+      - name: Cleanup existing Chrome processes
+        run: |
+          pkill -f chrome || true
+          pkill -f chromedriver || true
+          rm -rf /tmp/chrome-user-data-* || true
+        
+      - name: Run Selenium tests
+        env:
+          CI: true
+          HEADLESS: true
+          FIREFLY_URL: http://18.203.139.174:8080
+        run: |
+          pytest tests/ -v

@@ -1,0 +1,34 @@
+# File: .github/workflows/api-testing.yaml
+name: Run Tests
+
+on:
+  pull_request:
+    branches: 
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest requests
+
+
+    - name: Run tests
+      env:
+          CI: true
+          FIREFLY_URL: http://18.203.139.174:8080
+      run: |
+        export PYTHONPATH=$PYTHONPATH:$(pwd)
+        pytest -v
