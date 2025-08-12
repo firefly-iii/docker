@@ -18,7 +18,7 @@ class TestGetSingleAccount(unittest.TestCase):
 
     def test_get_existing_account(self):
         account_id = "2"  # ודא שהחשבון הזה קיים
-        response = requests.get(f"{BASE_URL}/{account_id}", headers=HEADERS)
+        response = requests.get(f"{BASE_URL}/api/v1/accounts/{account_id}", headers=HEADERS)
         self.assertEqual(response.status_code, 200, msg=response.text)
         data = response.json()
         self.assertIn("data", data)
@@ -27,7 +27,7 @@ class TestGetSingleAccount(unittest.TestCase):
 
     def test_get_nonexistent_account(self):
         account_id = "999999"  # ID שלא קיים
-        response = requests.get(f"{BASE_URL}/{account_id}", headers=HEADERS)
+        response = requests.get(f"{BASE_URL}/api/v1/accounts/{account_id}", headers=HEADERS)
         self.assertEqual(response.status_code, 404, msg=response.text)
         data = response.json()
         self.assertIn("message", data)
@@ -39,7 +39,7 @@ class TestGetSingleAccount(unittest.TestCase):
             "Accept": "application/vnd.api+json",
             "X-Trace-Id": str(uuid.uuid4())
         }
-        response = requests.get(f"{BASE_URL}/{account_id}", headers=headers_without_token)
+        response = requests.get(f"{BASE_URL}/api/v1/accounts/{account_id}", headers=headers_without_token)
         self.assertEqual(response.status_code, 401, msg=response.text)
         data = response.json()
         self.assertIn("message", data)
@@ -47,7 +47,7 @@ class TestGetSingleAccount(unittest.TestCase):
 
     def test_get_account_bad_request(self):
         invalid_id = "invalid-id"
-        response = requests.get(f"{BASE_URL}/{invalid_id}", headers=HEADERS)
+        response = requests.get(f"{BASE_URL}/api/v1/accounts/{invalid_id}", headers=HEADERS)
         self.assertIn(response.status_code, [400, 404], msg=response.text)
         data = response.json()
         self.assertIn("message", data)

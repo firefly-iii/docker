@@ -6,7 +6,9 @@ from tests.firefly_credentials import get_firefly_credentials
 TOKEN = get_firefly_credentials()["token"]
 BASE_URL = get_firefly_credentials()["base_url"]
 
-DELETE_URL = f"{BASE_URL}/{{id}}"
+DELETE_URL = f"{BASE_URL}/api/v1/accounts/{{id}}"
+CREATE_ACCOUNTS_URL = BASE_URL + "/api/v1/accounts"
+
 HEADERS = {
     "Authorization": f"Bearer {TOKEN}",
     "Content-Type": "application/json",
@@ -22,7 +24,7 @@ class TestDeleteAccountAPI(unittest.TestCase):
             "account_role": "defaultAsset",
             "currency_id": "1"
         }
-        response = requests.post(BASE_URL, headers=HEADERS, json=payload)
+        response = requests.post(CREATE_ACCOUNTS_URL, headers=HEADERS, json=payload)
         self.assertEqual(response.status_code, 200, "Failed to create temporary account")
         return response.json()["data"]["id"]
 

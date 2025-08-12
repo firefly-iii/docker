@@ -5,6 +5,7 @@ from tests.firefly_credentials import get_firefly_credentials
 
 TOKEN = get_firefly_credentials()["token"]
 BASE_URL = get_firefly_credentials()["base_url"]
+GET_LIST_ACCOUNTS_URL = BASE_URL + "/api/v1/accounts"
 HEADERS = {
     "Authorization": f"Bearer {TOKEN}",
     "Accept": "application/json"
@@ -18,7 +19,7 @@ class TestFireflyAccountsAPI(unittest.TestCase):
             "page": 1
         }
 
-        response = requests.get(BASE_URL, headers=HEADERS, params=params)
+        response = requests.get(GET_LIST_ACCOUNTS_URL, headers=HEADERS, params=params)
 
         print("Response status:", response.status_code)
         print("Response body:", response.text)
@@ -36,7 +37,7 @@ class TestFireflyAccountsAPI(unittest.TestCase):
 
     def test_number_of_accounts_not_zero(self):
         """בודק שיש לפחות חשבון אחד"""
-        response = requests.get(BASE_URL + "?limit=999", headers=HEADERS)
+        response = requests.get(GET_LIST_ACCOUNTS_URL + "?limit=999", headers=HEADERS)
 
         self.assertEqual(response.status_code, 200, f"Expected 200 but got {response.status_code}")
         json_data = response.json()

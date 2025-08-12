@@ -7,6 +7,7 @@ from tests.firefly_credentials import get_firefly_credentials
 
 TOKEN = get_firefly_credentials()["token"]
 BASE_URL = get_firefly_credentials()["base_url"]
+ACCOUNTS_URL = BASE_URL + "/api/v1/accounts"
 
 HEADERS = {
     "Authorization": f"Bearer {TOKEN}",
@@ -17,7 +18,7 @@ HEADERS = {
 class TestFireflyCreateAccount(unittest.TestCase):
 
     def get_account_count(self):
-        response = requests.get(BASE_URL + "?limit=999", headers=HEADERS)
+        response = requests.get(ACCOUNTS_URL + "?limit=999", headers=HEADERS)
         self.assertEqual(response.status_code, 200, "Failed to fetch accounts list")
         data = response.json()
         return len(data.get("data", []))
@@ -35,7 +36,7 @@ class TestFireflyCreateAccount(unittest.TestCase):
             "currency_id": "1"
         }
 
-        response = requests.post(BASE_URL, headers=HEADERS, json=payload)
+        response = requests.post(ACCOUNTS_URL, headers=HEADERS, json=payload)
 
         print("Response status:", response.status_code)
         print("Response body:", response.text)
@@ -53,7 +54,7 @@ class TestFireflyCreateAccount(unittest.TestCase):
             "type": "asset"
         }
 
-        response = requests.post(BASE_URL, headers=HEADERS, json=incomplete_payload)
+        response = requests.post(ACCOUNTS_URL, headers=HEADERS, json=incomplete_payload)
         self.assertEqual(response.status_code, 422)
         json_data = response.json()
         self.assertIn("message", json_data)
@@ -69,8 +70,8 @@ class TestFireflyCreateAccount(unittest.TestCase):
             "currency_id": "1"
         }
 
-        first = requests.post(BASE_URL, headers=HEADERS, json=payload)
-        second = requests.post(BASE_URL, headers=HEADERS, json=payload)
+        first = requests.post(ACCOUNTS_URL, headers=HEADERS, json=payload)
+        second = requests.post(ACCOUNTS_URL, headers=HEADERS, json=payload)
 
         # שני הבקשות יהיו עם אותו שם – השנייה אמורה להיכשל
         self.assertEqual(first.status_code, 200)
@@ -78,3 +79,4 @@ class TestFireflyCreateAccount(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

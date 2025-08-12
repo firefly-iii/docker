@@ -6,7 +6,7 @@ from tests.firefly_credentials import get_firefly_credentials
 
 
 TOKEN = get_firefly_credentials()["token"]
-BASE_URL = get_firefly_credentials()["base_url"]
+BASE_URL = get_firefly_credentials()["base_url"]+"/api/v1/attachments"
 HEADERS = {
     "Authorization": f"Bearer {TOKEN}",
     "Accept": "application/vnd.api+json",

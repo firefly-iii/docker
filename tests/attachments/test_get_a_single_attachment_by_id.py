@@ -5,8 +5,8 @@ from tests.firefly_credentials import get_firefly_credentials
 
 class TestGetAttachmentAPI(unittest.TestCase):
     TOKEN = get_firefly_credentials()["token"]
-    BASE_URL = "http://localhost:8080/api/v1/attachments"  # URL מדויק ל-attachments
-    BILLS_URL = "http://localhost:8080/api/v1/bills"
+    BASE_URL = get_firefly_credentials()["base_url"] +"/api/v1/attachments"
+    BILLS_URL = get_firefly_credentials()["base_url"] +"/api/v1/bills"
 
     def setUp(self):
         self.headers = {

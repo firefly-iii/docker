@@ -9,7 +9,8 @@ from tests.firefly_credentials import get_firefly_credentials
 TOKEN = get_firefly_credentials()["token"]
 BASE_URL = get_firefly_credentials()["base_url"]
 
-UPDATE_URL = f"{BASE_URL}/{{id}}"
+UPDATE_URL = f"{BASE_URL + '/api/v1/accounts'}/{{id}}"
+CREATE_ACCOUNT_URL = BASE_URL + "/api/v1/accounts"
 
 def get_headers():
     return {
@@ -33,7 +34,7 @@ class TestUpdateAccountAPI(unittest.TestCase):
 
     def create_account(self):
         payload = self.generate_payload()
-        response = requests.post(BASE_URL, headers=get_headers(), json=payload)
+        response = requests.post(CREATE_ACCOUNT_URL, headers=get_headers(), json=payload)
         self.assertEqual(response.status_code, 200, msg=response.text)
         return response.json()["data"]["id"]
 
@@ -87,7 +88,7 @@ class TestUpdateAccountAPI(unittest.TestCase):
         response = requests.put(update_url, headers=get_headers(), json=payload)
         self.assertEqual(response.status_code, 200)
 
-        get_response = requests.get(f"{BASE_URL}/{account_id}", headers=get_headers())
+        get_response = requests.get(f"{BASE_URL}/api/v1/accounts/{account_id}", headers=get_headers())
         self.assertEqual(get_response.status_code, 200)
         json_data = get_response.json()
         notes_value = json_data["data"]["attributes"].get("notes", "not-present")

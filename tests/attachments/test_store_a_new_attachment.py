@@ -6,7 +6,7 @@ from tests.firefly_credentials import get_firefly_credentials
 
 class TestCreateAttachment(unittest.TestCase):
     TOKEN = get_firefly_credentials()["token"]
-    BASE_URL = "http://localhost:8080/api/v1/attachments"  # עדכן לפי ה-API שלך
+    BASE_URL = get_firefly_credentials()["base_url"]+"/api/v1/attachments"  
     HEADERS = {
         "Authorization": f"Bearer {TOKEN}",
         "X-Trace-Id": str(uuid.uuid4()),
