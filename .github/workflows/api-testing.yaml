@@ -1,3 +1,4 @@
+# File: .github/workflows/api-testing.yaml
 name: Run Tests
 
 on:
@@ -12,7 +13,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-
     - name: Set up Python 3.12
       uses: actions/setup-python@v4
       with:
@@ -22,18 +22,9 @@ jobs:
       run: |
         pip install --upgrade pip
         pip install -r requirements.txt
-        pip install pytest pytest-cov
+        pip install pytest requests
 
-    #  Run tests 
-    - name: Run tests with
+    - name: Run tests
       run: |
-        pytest 
-
-    # #  Upload coverage report to Codecov
-    # - name: Upload coverage to Codecov
-    #   uses: codecov/codecov-action@v3
-    #   with:
-    #     token: ${{ secrets.CODECOV_TOKEN }}   
-    #     file: ./coverage.xml
-    #     fail_ci_if_error: true
- 
+        export PYTHONPATH=$PYTHONPATH:$(pwd)
+        pytest -v
