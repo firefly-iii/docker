@@ -25,7 +25,7 @@ services:
       - firefly_iii_db:/var/lib/mysql
   cron:
     #
-    # To make this work, set STATIC_CRON_TOKEN in your .env file or as an environment variable and replace PLEASE_REPLACE_WITH_32_CHAR_CODE below
+    # To make this work, set STATIC_CRON_TOKEN in your .env file or as an environment variable
     # The STATIC_CRON_TOKEN must be *exactly* 32 characters long
     #
     image: alpine
@@ -33,13 +33,15 @@ services:
     container_name: firefly_iii_cron
     env_file: .env
     command: sh -c "
-      apk add tzdata
-      && ln -s /usr/share/zoneinfo/${TZ} /etc/localtime
-      | echo \"0 3 * * * wget -qO- http://app:8080/api/v1/cron/PLEASE_REPLACE_WITH_32_CHAR_CODE;echo\" 
-      | crontab - 
-      && crond -f -L /dev/stdout"
+      apk add tzdata && \
+      ln -fs /usr/share/zoneinfo/$$TZ /etc/localtime && \
+      echo \"0 3 * * * wget -qO- http://app:8080/api/v1/cron/$$STATIC_CRON_TOKEN;echo\"
+      | crontab - && \
+      crond -f -L /dev/stdout"
     networks:
       - firefly_iii
+    depends_on:
+      - app
 
 volumes:
    firefly_iii_upload:
