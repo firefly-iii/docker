@@ -28,7 +28,6 @@ jobs:
     - name: Run tests
       env:
           CI: true
-          HEADLESS: true
           FIREFLY_URL: http://18.203.139.174:8080
       run: |
         export PYTHONPATH=$PYTHONPATH:$(pwd)
