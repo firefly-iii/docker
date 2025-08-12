@@ -24,6 +24,7 @@ jobs:
         pip install -r requirements.txt
         pip install pytest requests
 
+        
     - name: Run tests
       env:
           CI: true
