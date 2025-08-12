@@ -21,9 +21,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install --upgrade pip
-        # pip install -r torch-requirements.txt
-        # pip install -r requirements.txt
-        # # Install pytest and coverage tools in case they're not in requirements.txt
+        pip install -r requirements.txt
         pip install pytest pytest-cov
 
     #  Run tests with coverage report
