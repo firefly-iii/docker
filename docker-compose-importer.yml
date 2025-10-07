@@ -57,7 +57,7 @@ services:
     env_file: .env
     command: sh -c "
       apk add tzdata && \
-      ln -fs /usr/share/zoneinfo/$$TZ /etc/localtime && \
+      (ln -fs /usr/share/zoneinfo/$$TZ /etc/localtime || true) && \
       echo \"0 3 * * * wget -qO- http://app:8080/api/v1/cron/$$STATIC_CRON_TOKEN;echo\"
       | crontab - && \
       crond -f -L /dev/stdout"
