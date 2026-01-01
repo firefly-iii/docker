@@ -39,6 +39,12 @@ services:
     container_name: firefly_iii_importer
     networks:
       - firefly_iii
+#
+# Remove this comment, and add the "volumes" entry to map a folder ("volume") to the /import directory inside the container.
+# This can be used to import from a directory.
+#
+#    volumes:
+#      - /your-path-here/to/import:/import
     ports:
       - '81:8080'
     depends_on:
