@@ -22,6 +22,7 @@ body:
     attributes:
       label: Description
       description: Please provide a brief description of the bug in 1-2 sentences.
+      placeholder: Please DO NOT use AI / LLM to write the description for you.
     validations:
       required: true
 
@@ -37,3 +38,4 @@ body:
     attributes:
       label: Additional info
       description: Please provide any additional information that seems useful.
+      placeholder: Please DO NOT use AI / LLM to write the additional info for you.
