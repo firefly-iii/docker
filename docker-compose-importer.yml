@@ -11,6 +11,7 @@ services:
     image: fireflyiii/core:latest
     hostname: app
     container_name: firefly_iii_core
+    stop_signal: SIGINT
     networks:
       - firefly_iii
     restart: always

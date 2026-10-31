@@ -3,6 +3,7 @@ services:
     image: fireflyiii/core:latest
     hostname: app
     container_name: firefly_iii_core
+    stop_signal: SIGINT
     restart: always
     volumes:
       - firefly_iii_upload:/var/www/html/storage/upload
